@@ -13,8 +13,8 @@ const CHAPTERS = [
   [1, 2, "开场：从写代码到可验证交付"],
   [3, 9, "第一章：docs-for-ai 管理工程事实"],
   [10, 16, "第二章：Skill 把事实组织成行动"],
-  [17, 22, "第三章：工作流故障交付案例"],
-  [23, 23, "结语：下一次任务的七个问题"],
+  [17, 30, "第三章：工作流故障交付案例"],
+  [31, 31, "结语：下一次任务的七个问题"],
 ];
 
 const LAYOUTS = {
@@ -36,7 +36,8 @@ const LAYOUTS = {
   17: "flow",
   19: "flow",
   20: "case",
-  23: "checklist",
+  23: "table",
+  31: "checklist",
 };
 
 function escapeHtml(value) {
@@ -194,6 +195,16 @@ function renderVisual(name) {
           <span>Tests</span><i>←</i><span>Consumer</span><i>←</i><span>Generated Client</span><i>←</i><span>OpenAPI</span>
         </div>
       </figure>`,
+    "identity-envelope": `
+      <figure class="visual visual--field-chain" aria-label="Workflow 将归属范围与执行人身份封装为跨域请求">
+        <div class="visual__field-row">
+          <span>Query · Dataset</span><i>+</i><span>CanonicalScope</span><i>+</i><span>Session facts</span><i>→</i><span>Knowledge Request</span>
+        </div>
+        <div class="visual__field-turn">↓</div>
+        <div class="visual__field-row visual__field-row--return">
+          <span>RAG 检索</span><i>←</i><span>Dataset 预授权</span><i>←</i><span>真实执行人</span><i>←</i><span>租户 / 工作空间</span>
+        </div>
+      </figure>`,
     "authz-chain": `
       <figure class="visual visual--field-chain" aria-label="Prompt 删除请求的授权决策链">
         <div class="visual__field-row">
@@ -349,9 +360,9 @@ function parseSlides(markdown) {
         chapter: chapterFor(number),
         layout: LAYOUTS[number] ?? "standard",
         screen: section(block, "屏幕内容", "讲者备注"),
-        notes: section(block, "讲者备注", number === 23 ? "依据" : "过渡"),
+        notes: section(block, "讲者备注", number === 31 ? "依据" : "过渡"),
         transition:
-          number === 23 ? "" : section(block, "过渡", "依据"),
+          number === 31 ? "" : section(block, "过渡", "依据"),
         sources: section(block, "依据"),
       };
     });
@@ -1216,8 +1227,8 @@ const REVEAL_CLIENT_SCRIPT = String.raw`
 
 const markdown = readFileSync(sourcePath, "utf8");
 const slides = parseSlides(markdown);
-if (slides.length !== 23) {
-  throw new Error(`Expected 23 slides, received ${slides.length}`);
+if (slides.length !== 31) {
+  throw new Error(`Expected 31 slides, received ${slides.length}`);
 }
 slides.forEach((slide, index) => {
   if (slide.number !== index + 1) {
@@ -1262,7 +1273,7 @@ const html = `<!doctype html>
 
   <aside class="panel" id="overview-panel" aria-label="幻灯片总览" hidden>
     <div class="panel__surface">
-      <div class="panel__head"><h2>23 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
+      <div class="panel__head"><h2>31 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="overview__grid"></div>
     </div>
   </aside>

@@ -473,28 +473,27 @@ delivery-loop
 
 ---
 
-## 18. 用户看到的现象：一加知识库检索就失败
+## 18. 定界：先把报错改写成工程任务
 
 ### 屏幕内容
 
 ```text
-场景：工作流画布 → 试运行 → 异步轮询结果
-症状：Dataset（知识库检索）节点失败
-
-Workflow execution failure: identity reference is invalid
-executeStatus=3（失败）  nodeStatus=4（节点错误）
+Goal        Dataset 节点以当前执行人的身份完成知识库检索
+Non-goals   不放宽 Knowledge 身份校验；不冒充 creator；不改 HTTP contract
+Route       backend + studio.workflow + observable_behavior_change
+Evidence    focused tests + Workflow tests/build/vet + 真实 test_run 验收
 ```
 
-- 开始节点没问题；一加检索节点，试运行就稳定失败；
-- 会话、权限、重试看起来都像原因，但还没有证据。
+- 开始节点成功，Dataset 节点稳定失败：`identity reference is invalid`；
+- 登录失效、权限配置和 dataset 配置都只是初始猜测。
 
 ### 讲者备注
 
-先把报错改成清楚的任务：让检索节点能试运行；同时不放松身份校验，也不能拿别人的身份来冒充当前执行人。
+此时不读完整 IAM、数据库或部署文档，也不急着建立 PLAN。范围尚不清楚，最重要的是别把“让报错消失”写成目标。
 
 ### 过渡
 
-拿到 Route 给的入口后，就从报错定义一路往上查。
+Route 给出的最小入口是 AGENTS 指令链、Workflow domain、backend standards、code root 和 contract root；它也明确要求 backend 与 acceptance evidence。
 
 ### 依据
 
@@ -502,7 +501,7 @@ executeStatus=3（失败）  nodeStatus=4（节点错误）
 
 ---
 
-## 19. 先别急着删校验：它拒绝得没有错
+## 19. Explore 1：先证明安全契约没有错
 
 ### 屏幕内容
 
@@ -510,18 +509,22 @@ executeStatus=3（失败）  nodeStatus=4（节点错误）
 identity reference is invalid
   → identityref.ErrInvalidIdentifier
   → knowledge contract Retrieve 解析 Tenant / Workspace
-  → 身份字段为空：拒绝请求（正确的 fail-closed）
+  → parseScope 收到空字符串：拒绝请求（正确的 fail-closed）
 ```
 
-**第一次找到的原因：** Workflow 发给知识库的请求，漏带了契约要求的“当前执行人身份”。
+| 问题 | 结论 | 事实源 |
+|---|---|---|
+| 谁拥有修复 | Workflow 调用方 | Domain Registry |
+| 哪个边界不能动 | Knowledge fail-closed contract | Knowledge contract |
+| 当前要改哪里 | 4 个 Workflow 调用点 | 当前代码扫描 |
 
 ### 讲者备注
 
-不能为了让请求通过就放宽 Knowledge 的校验。校验本来是对的；该改的是调用方，让它把完整身份带过去。随后再全仓搜索同类调用，确认不能只修一个入口。
+请求在真正的权限判断之前就因空身份被拒绝。这个证据推翻了“权限配置错”的假设；不该去 Knowledge 模块放宽校验。
 
 ### 过渡
 
-该补的信息放在发起请求的一侧，不去拆安全门。
+新问题才触发新的上下文：Knowledge 为什么要求显式身份？答案来自 contract 和 Git history；当前扫描则确认遗漏范围。
 
 ### 依据
 
@@ -529,26 +532,26 @@ identity reference is invalid
 
 ---
 
-## 20. 修复方式：把真正执行人的身份一起带过去
+## 20. 身份信封：请求属于哪里，谁正在执行
 
 ### 屏幕内容
 
 ```visual
-field-chain
+identity-envelope
 ```
 
-1. `Build` 阶段从执行人会话取出 `CanonicalScope`；
-2. `Invoke` 阶段明确把身份放进跨服务请求；
-3. 检索、文档写入、文档删除等入口一起补齐；
-4. 没有会话时仍然拒绝，不偷偷发一个身份不完整的请求。
+- `CanonicalScope`：`TenantID`、`WorkspaceID`，来自 WorkflowSchema；
+- session facts：principal、active tenant、assurance、credential scope，来自当前执行人；
+- Knowledge 依据这组事实完成 Dataset 预授权；
+- 当前代码扫描发现 4 个遗漏点：Retrieve、LLM recall、Dataset Write、Dataset Delete。
 
 ### 讲者备注
 
-不从 ctx 里暗中反查会话，不让 workflow 创建人冒充当前执行人，也不放宽 Knowledge 校验。所谓“最小改动”，是只改错的地方，不是尽量少改几行。
+Query 只说明“要查什么”；身份信封说明“请求属于哪里、谁在执行、凭证受什么限制”。因此必须由 Workflow 显式传递，不能让 adapter 从 ctx 隐式猜测。
 
 ### 过渡
 
-局部测试只能证明这段传递逻辑；用户任务能不能关，还要回到真实试运行。
+先把当时确认的根因、范围和拒绝方案写进 DEFECT，再进入实施。
 
 ### 依据
 
@@ -556,28 +559,28 @@ field-chain
 
 ---
 
-## 21. 真实试运行仍失败：第一次结论被推翻
+## 21. 记录：在实施前建立 DEFECT 与 Resolution Plan
 
 ### 屏幕内容
 
 ```text
-Focused tests：身份已显式传递 ✓
-真实试运行：仍然 identity reference is invalid ✗
+已确认根因   Workflow 构造跨域请求时身份字段为空
+实现 owner   studio-workflow
+最小修复     从执行会话派生身份，注入 4 个调用点
 
-新证据：运行前 reset session cache
-        → 上层 ctx 仍有 session
-        → 下游重新读取时却拿到空身份
+明确拒绝：不放宽 adapter；不在 adapter 读 session；
+          不用 creator 替代执行人；不只修 Retrieve
 ```
 
-> 发现新证据不是白做了，而是提醒我们：要回去继续查，不能硬说已经修好。
+> 不是根据最终 diff 倒推一篇完美故事，而是在实施前固定“准备相信什么、准备改什么、不接受什么”。
 
 ### 讲者备注
 
-这时只能说“局部修复已经验证，用户场景还没有验收”。后来发现第二个原因是：session 被 context cache 挡住了，下游重新读取时看不到它。
+DEFECT 让跨域、授权边界且具有复发价值的问题有稳定 owner；PLAN 仍只记录文件级实施，不重新定义产品行为。
 
 ### 过渡
 
-第二轮先写一个会失败的测试，再修复 cache reset 后拿不到 session 的问题。
+第一轮实现只改 Workflow 请求构造，不移动 Knowledge 的安全边界。
 
 ### 依据
 
@@ -585,28 +588,29 @@ Focused tests：身份已显式传递 ✓
 
 ---
 
-## 22. 结束任务时，要把“知道什么、不知道什么”写下来
+## 22. Implement 1：在真正 owner 层补齐身份
 
 ### 屏幕内容
 
-```visual
-routing-feedback
+```text
+Build：WorkflowSchema → CanonicalScope(TenantID, WorkspaceID)
+Invoke：request session → principal / active tenant / assurance / credential scope
+                 ↓
+RetrieveRequest：业务参数 + 完整身份信封
 ```
 
-| 留下的记录 | 里面写什么 |
-|---|---|
-| DEFECT | 当时怎么猜、为什么被推翻、最后怎么处理 |
-| TEST | 两次修复分别有什么回归证据 |
-| Delivery Log | 实际跑了什么、没跑什么、还可能有什么风险 |
-| Router feedback | 下次遇到类似任务，该提前看什么、验什么、何时找人确认 |
+- 缺少 session 时仍 fail-closed，不发起跨域请求；
+- 不从 `ctx` 隐式反查会话；
+- 不使用 workflow creator 冒充当前执行人；
+- 不修改 Workflow HTTP contract 与 Knowledge adapter。
 
 ### 讲者备注
 
-Close 不是一句“done”。它要让下一位人或 AI 看懂：哪些已经证明了，哪些还没有，为什么最后这样改。
+最小 coherent change 不是少改一行，而是让请求构造重新满足既有 contract，同时保留安全边界。
 
 ### 过渡
 
-最后把整套做法变成每次都能用的七个问题。
+实现后先取得 focused 证据；不要把“测试绿”提前翻译成“用户问题已解决”。
 
 ### 依据
 
@@ -614,7 +618,233 @@ Close 不是一句“done”。它要让下一位人或 AI 看懂：哪些已经
 
 ---
 
-## 23. 下次让 AI 动手前，先问这七个问题
+## 23. Verify 1：第一轮证据证明了什么，又遗漏了什么
+
+### 屏幕内容
+
+| 已证明 | 尚未证明 |
+|---|---|
+| scope 与 session facts 组装正确 | 浏览器 session 穿过异步 Runner 后仍可见 |
+| 身份缺失时继续 fail-closed | Dataset 节点真实完成 |
+| 4 个请求构造点都已补齐 | 用户路径恢复 |
+| Workflow tests、build、vet 通过 | acceptance / E2E 已运行 |
+
+> focused test 通过，只能支持“局部修复已验证”；不能支持“问题已解决”。
+
+### 讲者备注
+
+Delivery Log 如实记录 E2E 尚未运行，但第一次 Close 仍然过早。这个证据缺口为下一次用户复测埋下了可解释的转折。
+
+### 过渡
+
+用户复测提供新的运行证据：任务不是继续在第一层补字段，而是回到 Explore。
+
+### 依据
+
+- 参考文档：三、6
+
+---
+
+## 24. 运行反馈：用户复测推翻第一次 Close
+
+### 屏幕内容
+
+```text
+Focused tests：身份已显式传递 ✓
+真实 test_run：knowledge identity is required ✗
+
+含义：节点尚未发出跨域请求；
+      CanonicalScope 存在，但 Dataset Invoke 读不到 request session。
+```
+
+> 新错误不是第一轮修复失败；它精确说明第一层修复正确，但用户目标仍未恢复。
+
+### 讲者备注
+
+原 Delivery Log 不改写，而是追加“第一轮完成结论过早”、新运行证据和重开 Explore 的决定。append-only 使当时依据与遗漏的验证仍然可见。
+
+### 过渡
+
+第二轮问题变成：HTTP middleware 写入的 session，到底在哪一步对 Dataset 节点不可见？
+
+### 依据
+
+- 参考文档：三、7
+
+---
+
+## 25. Explore 2：context 没丢，session 被新 cache 遮蔽
+
+### 屏幕内容
+
+```text
+session middleware → context.WithoutCancel → safego.Go → ExeCtx → Dataset Invoke
+                                  context value 一直保留 ✓
+
+原 context / cache map A              freshCtx / cache map B
+  session + scratch data    ctxcache.Init →    空 cache 优先命中
+                                                ↓
+                                  GetUserSessionFromCtx = nil
+```
+
+真正断点在 `UseCtxCache = true` 的节点调用前：`ctxcache.Init` 新建 map B，遮蔽 map A 中的 session。
+
+### 讲者备注
+
+这排除了“goroutine 或 WithoutCancel 丢失 context”的猜测。父 context 没被删除，只是下游查询先命中了新的空缓存。
+
+### 过渡
+
+不能删除 cache reset；先用红测把允许穿过与必须隔离的数据边界写清。
+
+### 依据
+
+- 参考文档：三、8
+
+---
+
+## 26. 红测：请求级身份可见，节点级 scratch 必须隔离
+
+### 屏幕内容
+
+| 不变量 | 为什么 |
+|---|---|
+| reset 后 request session 仍可见 | 它是整次请求可信的执行身份 |
+| reset 前 scratch data 不可见 | 它只属于一次节点调用 |
+
+`TestUseCtxCacheNodeStillSeesRequestSession` 在修复前失败：`session shadowed; seen = nil`。
+
+### 讲者备注
+
+红测把第二层根因从推断变成可重复证据，也避免“为修复 session 而保留全部旧 cache”导致临时数据泄漏。
+
+### 过渡
+
+实现只让 session 穿过 reset，不复制整个 cache map。
+
+### 依据
+
+- 参考文档：三、9
+
+---
+
+## 27. Implement 2：只让 session 穿过 cache reset
+
+### 屏幕内容
+
+```go
+freshCtx := ctxcache.Init(ctx)
+if session := GetUserSessionFromCtx(ctx); session != nil {
+    Store(freshCtx, SessionDataKey, session)
+}
+return freshCtx
+```
+
+```text
+map A: session + scratch  →  map B: session
+                                   scratch ✕
+```
+
+### 讲者备注
+
+保留 `ctxcache.Init` 的节点隔离目的；只重新注入请求级 session。红测转绿，原有 scratch 隔离断言保持绿色。
+
+### 过渡
+
+两轮 focused tests 都通过后，仍需要 Route 一开始要求的 acceptance evidence。
+
+### 依据
+
+- 参考文档：三、10
+
+---
+
+## 28. Acceptance：补齐真实用户路径的证据
+
+### 屏幕内容
+
+```text
+UI 重新登录 → request session → Workflow 异步执行
+  → cache reset 后恢复 session → CanonicalScope + actor facts
+  → Knowledge contract → RAG 预授权与检索
+
+Dataset nodeStatus = 3
+errorInfo = ""
+output = {"outputList":[]}
+```
+
+`outputList` 为空并不代表失败；验收目标是节点以当前用户身份安全完成，而不是任意查询都命中文档。
+
+### 讲者备注
+
+验收前需确认运行进程已加载第二轮修复；旧 Cookie 随重启失效后重新登录，再执行真实 `test_run` 并轮询 Dataset 节点结果。
+
+### 过渡
+
+最终把稳定结论写回各自的 owner，不让它只留在聊天和提交说明中。
+
+### 依据
+
+- 参考文档：三、11
+
+---
+
+## 29. Close：DEFECT、Log、Test 各自拥有不同事实
+
+### 屏幕内容
+
+| owner | 最终沉淀 |
+|---|---|
+| DEFECT-0007 | 用户现象、两层根因、两轮修复、拒绝方案、验收与范围外问题 |
+| Delivery Log | 第一轮做了什么、为何过早关闭、第二轮与 acceptance 摘要 |
+| Tests | 跨域身份 contract；cache reset 的 session / scratch 数据边界 |
+
+> 文档保存因果和决策；测试保存可机械阻止复发的不变量。
+
+### 讲者备注
+
+Close 不是一句 done：它必须诚实地给出已运行、未运行和残余风险。End 节点对空数组的独立问题被记录，但不扩大当前修复范围。
+
+### 过渡
+
+用整条生命周期回看 docs、Skill、测试与运行证据如何共同推进任务。
+
+### 依据
+
+- 参考文档：三、12
+
+---
+
+## 30. 回看完整流程：每一步由证据推动，而非猜测推动
+
+### 屏幕内容
+
+```visual
+delivery-loop
+```
+
+| 阶段 | 关键产出 |
+|---|---|
+| 定界 / Route | 目标、不变项、最小事实入口、证据责任 |
+| Explore 1 / Implement 1 | 身份缺失根因、显式身份信封、focused tests |
+| 运行反馈 / Explore 2 | 过早 Close 被推翻、cache 遮蔽根因、红测 |
+| Implement 2 / Acceptance / Close | session 重注入、真实 test_run、DEFECT + Log + Tests |
+
+### 讲者备注
+
+docs 不在开始时一次读完，也不在结束时才补写。它持续提供 owner 和边界，并接收稳定结论；Skill 则在每个阶段推动下一步。
+
+### 过渡
+
+最后，将这套做法压缩成每次交给 AI 前都可使用的七个问题。
+
+### 依据
+
+- 参考文档：三、13
+
+---
+
+## 31. 下次让 AI 动手前，先问这七个问题
 
 ### 屏幕内容
 
