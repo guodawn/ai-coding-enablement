@@ -23,8 +23,8 @@ const htmlSlides = [...html.matchAll(/<section class="slide [^>]+data-slide="(\d
   (match) => ({ number: Number(match[1]), title: match[2] }),
 );
 
-if (markdownSlides.length !== 31) errors.push(`Markdown has ${markdownSlides.length} slides, expected 31`);
-if (htmlSlides.length !== 31) errors.push(`HTML has ${htmlSlides.length} slides, expected 31`);
+if (markdownSlides.length !== 37) errors.push(`Markdown has ${markdownSlides.length} slides, expected 37`);
+if (htmlSlides.length !== 37) errors.push(`HTML has ${htmlSlides.length} slides, expected 37`);
 
 for (let index = 0; index < markdownSlides.length; index += 1) {
   const slide = markdownSlides[index];
@@ -32,7 +32,7 @@ for (let index = 0; index < markdownSlides.length; index += 1) {
   for (const section of ["屏幕内容", "讲者备注", "依据"]) {
     if (!slide.block.includes(`### ${section}`)) errors.push(`Slide ${slide.number} misses ${section}`);
   }
-  if (slide.number < 31 && !slide.block.includes("### 过渡")) {
+  if (slide.number < 37 && !slide.block.includes("### 过渡")) {
     errors.push(`Slide ${slide.number} misses 过渡`);
   }
   const generated = htmlSlides[index];
@@ -77,5 +77,5 @@ if (errors.length) {
 }
 
 console.log(
-  `deck check passed: 31 slides, ${visualCount} explanatory visuals, aligned titles, complete notes, self-contained HTML`,
+  `deck check passed: 37 slides, ${visualCount} explanatory visuals, aligned titles, complete notes, self-contained HTML`,
 );

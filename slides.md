@@ -482,7 +482,39 @@ delivery-loop
 
 ---
 
-## 18. 定界：先把报错改写成工程任务
+## 18. 用户问题：一加知识库检索，试运行就失败
+
+### 屏幕内容
+
+```text
+用户在工作流画布中试运行一个简单流程：
+
+开始节点 → Dataset 知识库检索节点
+
+开始节点成功，Dataset 节点稳定失败：
+Workflow execution failure: identity reference is invalid
+
+executeStatus = 3
+Dataset nodeStatus = 4
+```
+
+错误看起来像登录失效、权限配置错误或 Dataset 配置错误；这些都只是初始猜测。
+
+### 讲者备注
+
+这是一个稳定可复现的故障，而不是偶发网络错误。先让观众看到真实症状，才容易理解：为什么后面不能凭错误文本直接改登录、权限或知识库配置。
+
+### 过渡
+
+Skill 的第一步不是立即找根因，而是先写清目标、不变项和最终需要的验收证据。
+
+### 依据
+
+- 参考文档：三、1
+
+---
+
+## 19. 定界：先把报错改写成工程任务
 
 ### 屏幕内容
 
@@ -510,7 +542,39 @@ Route 给出的最小入口是 AGENTS 指令链、Workflow domain、backend stan
 
 ---
 
-## 19. Explore 1：先证明安全契约没有错
+## 20. Route：只读取解决当前问题的最小事实入口
+
+### 屏幕内容
+
+```text
+lane       backend
+domain     studio.workflow
+condition  observable_behavior_change
+```
+
+| 类型 | 本次输出 |
+|---|---|
+| Instructions | 根 AGENTS、backend/AGENTS、modules/AGENTS |
+| Owner docs | backend standards、Workflow domain、SPEC index |
+| Roots | `internal/core/workflow` + `contract/workflow` |
+| Verification | backend tests、acceptance tests |
+| Human gate | none |
+
+### 讲者备注
+
+Route 此时没有预读 IAM、安全、数据库、部署或 E2E 文档：还没有证据说明问题发生在这些边界。它只给调查起点，不维护“可能要改的文件清单”。第一个判断是：即使错误来自 Knowledge，也必须先证明 Workflow 请求是否满足跨域 contract。
+
+### 过渡
+
+因此 Explore 先搜索错误字符串，沿当前代码与 contract 追踪，而不是继续阅读背景资料。
+
+### 依据
+
+- 参考文档：三、2
+
+---
+
+## 21. Explore 1：先证明安全契约没有错
 
 ### 屏幕内容
 
@@ -541,7 +605,36 @@ identity reference is invalid
 
 ---
 
-## 20. 身份信封：请求属于哪里，谁正在执行
+## 22. 证据：Workflow 发出的请求，身份字段确实为空
+
+### 屏幕内容
+
+```go
+RetrieveRequest{
+  Query: "hi", KnowledgeIDs: []string{datasetID},
+  ChatHistory: ..., Strategy: ...,
+
+  TenantID: "", WorkspaceID: "", ActorPrincipalID: "",
+}
+```
+
+这说明请求在真正的权限判断之前，就因身份引用为空被拒绝。
+
+### 讲者备注
+
+这段“修复前的请求”是第一层根因的直接代码证据，不是登录、权限或 Dataset 配置的猜测。`parseScope(TenantID, WorkspaceID)` 收到空字符串后 fail-closed；Knowledge 的拒绝行为本身正确。
+
+### 过渡
+
+接着才需要回答：为什么跨域请求不能只传 query 和 dataset ID，而必须补齐一整个身份信封？
+
+### 依据
+
+- 参考文档：三、3
+
+---
+
+## 23. 身份信封：请求属于哪里，谁正在执行
 
 ### 屏幕内容
 
@@ -550,7 +643,7 @@ identity-envelope
 ```
 
 - `CanonicalScope`：`TenantID`、`WorkspaceID`，来自 WorkflowSchema；
-- session facts：principal、active tenant、assurance、credential scope，来自当前执行人；
+- session facts：principal、active tenant、assurance、credential scope、capabilities，来自当前执行人；
 - Knowledge 依据这组事实完成 Dataset 预授权；
 - 当前代码扫描发现 4 个遗漏点：Retrieve、LLM recall、Dataset Write、Dataset Delete。
 
@@ -560,7 +653,7 @@ Query 只说明“要查什么”；身份信封说明“请求属于哪里、�
 
 ### 过渡
 
-先把当时确认的根因、范围和拒绝方案写进 DEFECT，再进入实施。
+Git history 解释“为什么有这个安全要求”，当前代码扫描才证明“今天还影响哪些调用点”。
 
 ### 依据
 
@@ -568,7 +661,37 @@ Query 只说明“要查什么”；身份信封说明“请求属于哪里、�
 
 ---
 
-## 21. 记录：在实施前建立 DEFECT 与 Resolution Plan
+## 24. 范围判断：历史解释背景，当前代码证明遗漏范围
+
+### 屏幕内容
+
+```text
+Git commit 9599f107
+  RAG 数据集预授权要以真实人类主体执行
+  已补齐 agent 调用方，遗漏 Workflow
+
+当前代码扫描
+  Dataset Retrieve / LLM recall / Dataset Write / Dataset Delete
+  四个调用点仍缺完整身份
+```
+
+> Git history 解释“为什么”；当前代码才证明“今天还影响哪里”。
+
+### 讲者备注
+
+对照 agentflow 的同类调用，已经能看到完整身份传递。这里避免两种误判：只凭历史把过时影响面当事实，或只修最先报错的 Retrieve，把三处同类遗漏留在系统里。
+
+### 过渡
+
+第一层根因、影响范围和明确拒绝的捷径已经足够清楚；现在把这些当时的判断固定到 DEFECT。
+
+### 依据
+
+- 参考文档：三、3–4
+
+---
+
+## 25. 记录：在实施前建立 DEFECT 与 Resolution Plan
 
 ### 屏幕内容
 
@@ -597,7 +720,7 @@ DEFECT 让跨域、授权边界且具有复发价值的问题有稳定 owner；P
 
 ---
 
-## 22. Implement 1：在真正 owner 层补齐身份
+## 26. Implement 1：在真正 owner 层补齐身份
 
 ### 屏幕内容
 
@@ -627,16 +750,47 @@ RetrieveRequest：业务参数 + 完整身份信封
 
 ---
 
-## 23. Verify 1：第一轮证据证明了什么，又遗漏了什么
+## 27. 为什么必须显式传递身份，而不是在 adapter 里隐式读取？
+
+### 屏幕内容
+
+```text
+业务参数：Query / KnowledgeIDs        → 要查什么
+CanonicalScope：Tenant / Workspace    → 请求属于哪里
+Session facts：Principal / Assurance  → 谁在执行、凭证可信到什么程度
+                                      ↓
+Knowledge contract                  → 依据这些事实做 Dataset 预授权
+```
+
+| 不能采用的方案 | 原因 |
+|---|---|
+| adapter 从 context 隐式取 session | 调用方责任被藏起来，contract 无法说明信任哪些输入 |
+| 用 workflow creator 代替执行人 | creator 和实际执行人可能不同，授权会绑定到错误主体 |
+| 只修 Retrieve | 当前扫描已证明还有 3 个同类遗漏点 |
+
+### 讲者备注
+
+第一轮实现只修改 Workflow 的请求构造，不移动 Knowledge 的安全边界。这样“最小修复”不是少改一行，而是只在真正 owner 层补齐缺失的授权事实。
+
+### 过渡
+
+接下来用 focused tests 固定身份传递与 fail-closed；同时明确它们还不能证明什么。
+
+### 依据
+
+- 参考文档：三、5–6
+
+---
+
+## 28. Verify 1：第一轮证据证明了什么，又遗漏了什么
 
 ### 屏幕内容
 
 | 已证明 | 尚未证明 |
 |---|---|
-| scope 与 session facts 组装正确 | 浏览器 session 穿过异步 Runner 后仍可见 |
-| 身份缺失时继续 fail-closed | Dataset 节点真实完成 |
-| 4 个请求构造点都已补齐 | 用户路径恢复 |
-| Workflow tests、build、vet 通过 | acceptance / E2E 已运行 |
+| CanonicalScope 与全部 session facts 组装正确 | 浏览器 session 穿过异步 Runner 后仍可见 |
+| 无 session、无效 assurance / scope 时继续 fail-closed，且不发请求 | Dataset 节点真实完成 |
+| 4 个请求构造点已补齐；Workflow tests、build、vet 通过 | acceptance / E2E 已运行；用户路径恢复 |
 
 > focused test 通过，只能支持“局部修复已验证”；不能支持“问题已解决”。
 
@@ -654,7 +808,7 @@ Delivery Log 如实记录 E2E 尚未运行，但第一次 Close 仍然过早。�
 
 ---
 
-## 24. 运行反馈：用户复测推翻第一次 Close
+## 29. 运行反馈：用户复测推翻第一次 Close
 
 ### 屏幕内容
 
@@ -682,7 +836,7 @@ Focused tests：身份已显式传递 ✓
 
 ---
 
-## 25. Explore 2：context 没丢，session 被新 cache 遮蔽
+## 30. Explore 2：context 没丢，session 被新 cache 遮蔽
 
 ### 屏幕内容
 
@@ -712,7 +866,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 26. 红测：请求级身份可见，节点级 scratch 必须隔离
+## 31. 红测：请求级身份可见，节点级 scratch 必须隔离
 
 ### 屏幕内容
 
@@ -737,7 +891,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 27. Implement 2：只让 session 穿过 cache reset
+## 32. Implement 2：只让 session 穿过 cache reset
 
 ### 屏幕内容
 
@@ -768,7 +922,35 @@ map A: session + scratch  →  map B: session
 
 ---
 
-## 28. Acceptance：补齐真实用户路径的证据
+## 33. Acceptance 前：先确认环境运行的是第二轮修复
+
+### 屏幕内容
+
+```text
+1. 对比后端进程启动时间与修复文件 mtime
+2. 确认运行实例尚未加载第二轮修复
+3. 重启后端
+4. 旧 Cookie 随原进程失效，通过 UI 重新登录
+5. 执行真实 test_run，并轮询 Dataset 节点
+```
+
+> 验收不是“再跑一次测试”：先确保被验收的运行实例确实包含修复。
+
+### 讲者备注
+
+这一段解释为什么 acceptance 是独立证据层。若运行的仍是旧进程、浏览器持有旧 Cookie，后续成功或失败都无法可靠归因到当前修复。
+
+### 过渡
+
+环境与登录状态确认后，才能观察用户原来失败的完整路径是否恢复。
+
+### 依据
+
+- 参考文档：三、11
+
+---
+
+## 34. Acceptance：补齐真实用户路径的证据
 
 ### 屏幕内容
 
@@ -798,7 +980,7 @@ output = {"outputList":[]}
 
 ---
 
-## 29. Close：DEFECT、Log、Test 各自拥有不同事实
+## 35. Close：DEFECT、Log、Test 各自拥有不同事实
 
 ### 屏幕内容
 
@@ -824,7 +1006,7 @@ Close 不是一句 done：它必须诚实地给出已运行、未运行和残余
 
 ---
 
-## 30. 回看完整流程：每一步由证据推动，而非猜测推动
+## 36. 回看完整流程：每一步由证据推动，而非猜测推动
 
 ### 屏幕内容
 
@@ -855,7 +1037,7 @@ docs 不在开始时一次读完，也不在结束时才补写。它持续提供
 
 ---
 
-## 31. 把四项质量条件变成七个问题
+## 37. 把四项质量条件变成七个问题
 
 ### 屏幕内容
 
