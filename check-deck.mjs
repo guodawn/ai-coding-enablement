@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -45,11 +45,12 @@ for (const required of [
   '<html lang="zh-CN">',
   'name="viewport"',
   'Generated from slides.md by build-html.mjs',
-  'data-action="previous"',
-  'data-action="next"',
-  'data-action="overview"',
-  'data-action="notes"',
-  'data-action="fullscreen"',
+  'class="reveal"',
+  'class="slides"',
+  './vendor/reveal.js/reveal.css',
+  './vendor/reveal.js/reveal.js',
+  './vendor/reveal.js/notes.js',
+  'new Reveal({',
   '@media print',
   'window.__deckAudit',
 ]) {
@@ -60,6 +61,12 @@ if (/<(?:script|link)[^>]+(?:src|href)="https?:/i.test(html)) {
   errors.push("HTML has an external runtime dependency");
 }
 if (html.includes("@@SLIDE_TOKEN_")) errors.push("HTML has an unresolved inline token");
+
+for (const file of ["reveal.css", "reveal.js", "notes.js", "LICENSE"]) {
+  if (!existsSync(join(currentDir, "vendor", "reveal.js", file))) {
+    errors.push(`Local Reveal.js asset is missing: ${file}`);
+  }
+}
 
 const visualCount = (html.match(/<figure class="visual /g) ?? []).length;
 if (visualCount < 7) errors.push(`HTML has ${visualCount} explanatory visuals, expected at least 7`);

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="团队内部赋能：用工程上下文与反馈闭环指导 AI 高质量编码。">
   <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./vendor/reveal.js/reveal.css">
   <title>从工程事实到可验证交付 — AI 高质量编码</title>
   <style>
     :root {
@@ -553,17 +554,65 @@
       .slide__footer span:last-child { visibility: visible; }
       .controls, .progress, .panel { display: none !important; }
     }
+
+
+    [hidden] { display: none !important; }
+    .reveal { background: #dfe4e7; color: var(--ink); font-family: inherit; }
+    .reveal .slides { text-align: left; }
+    .reveal .slides > section.slide {
+      display: grid !important;
+      width: 1600px;
+      height: 900px;
+      min-height: 900px;
+      margin: 0;
+      padding: 62px 92px 44px;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 22px;
+      background:
+        linear-gradient(90deg, var(--accent) 0 12px, transparent 12px),
+        linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
+      color: var(--ink);
+      font-size: initial;
+      line-height: normal;
+      text-align: left;
+      transform-style: flat;
+    }
+    .reveal .slides > section.slide .slide__title,
+    .reveal .slides > section.slide .slide__body,
+    .reveal .slides > section.slide .slide__footer { text-transform: none; }
+    .reveal .slides > section.slide .slide__header { max-width: none; }
+    .reveal .slides > section.slide .slide__body { overflow: hidden; }
+    .reveal .slides > section.slide .notes { display: none; }
+    .reveal .controls {
+      right: 18px;
+      bottom: 18px;
+      display: block;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+    .reveal .controls button { min-width: 0; height: auto; padding: 0; border-radius: 0; }
+    .reveal .progress { position: absolute; height: 4px; background: rgb(20 108 120 / 16%); }
+    .reveal .progress span { background: var(--accent); }
+    .reveal .slide-number { right: 92px; bottom: 22px; color: var(--muted); background: transparent; font-size: 15px; }
+    @media print {
+      .reveal .slides > section.slide { display: grid !important; }
+      .reveal .controls, .reveal .progress, .reveal .slide-number { display: none !important; }
+    }
 </style>
 </head>
 <body>
   <!-- Generated from slides.md by build-html.mjs. -->
-  <main class="stage" aria-label="AI 高质量编码内部赋能演示">
+  <main class="reveal" aria-label="AI 高质量编码内部赋能演示"><div class="slides">
       <section class="slide slide--title" id="slide-01"
-        data-slide="1" data-title="AI 高质量编码，不只是写出代码"
+        data-slide="1" data-title="AI 写得快，为什么项目还是会改错？"
         data-chapter="开场：从写代码到可验证交付" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">开场：从写代码到可验证交付</p>
-          <h1 class="slide__title">AI 高质量编码，不只是写出代码</h1>
+          <h1 class="slide__title">AI 写得快，为什么项目还是会改错？</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--quality" aria-label="高质量 AI 代码由四项条件共同决定">
@@ -575,40 +624,40 @@
         </div>
         <div class="visual__result"><span>共同作用</span><strong>高质量 AI 代码</strong></div>
       </figure>
-<blockquote>容易出错的往往不是代码生成，而是：读到了什么、相信了什么、改了谁负责的代码，以及凭什么宣布完成。</blockquote></div>
+<blockquote>真正容易出错的，不是“怎么写代码”，而是“该看什么、该信什么、改完算不算真的好了”。</blockquote></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>01 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>docs-for-ai 管理工程事实，Skill 管理任务过程；二者共同把“能写”变成“可验证地交付”。</p>
-<h3>过渡</h3><p>先明确两套机制分别解决什么问题。</p>
+          <p>docs-for-ai 帮我们找对资料；Skill 帮我们按正确步骤做事。它们让 AI 不只会写补丁，还能把任务做完整。</p>
+<h3>过渡</h3><p>先看看：它们分别帮我们避免什么坑。</p>
           <h3>依据</h3>
           <ul><li><code>docs-for-ai-skill-high-quality-coding.md</code>：引言</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--standard" id="slide-02"
-        data-slide="2" data-title="两套机制，各自负责一半问题"
+        data-slide="2" data-title="文档管“该信谁”，Skill 管“下一步做什么”"
         data-chapter="开场：从写代码到可验证交付" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">开场：从写代码到可验证交付</p>
-          <h1 class="slide__title">两套机制，各自负责一半问题</h1>
+          <h1 class="slide__title slide__title--compact">文档管“该信谁”，Skill 管“下一步做什么”</h1>
         </header>
-        <div class="slide__body"><table><thead><tr><th>机制</th><th>它管理什么</th><th>它不替代什么</th></tr></thead><tbody><tr><td>docs-for-ai</td><td>事实在哪里、由谁维护、冲突时相信谁</td><td>代码阅读与调试</td></tr><tr><td>Skill</td><td>从哪里调查、何时扩大、如何验证、何时交给人</td><td>工程判断与产品决策</td></tr></tbody></table>
-<p><strong>目标：</strong> 让调查处在正确责任边界内，避免用不充分证据过早关闭任务。</p></div>
+        <div class="slide__body"><table><thead><tr><th>机制</th><th>它管理什么</th><th>它不替代什么</th></tr></thead><tbody><tr><td>docs-for-ai</td><td>去哪里找最可信的资料；资料冲突时该听谁的</td><td>读代码、排查问题</td></tr><tr><td>Skill</td><td>这类任务先做什么、再做什么、怎样算完成</td><td>技术判断和产品取舍</td></tr></tbody></table>
+<p><strong>目的：</strong> 别一看到测试绿了，就误以为整个问题已经解决。</p></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>02 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>文档不是让 Agent 多读背景；Skill 也不是固定命令。它们共同约束信息来源、行动顺序和完成标准。</p>
-<h3>过渡</h3><p>第一步是摆脱“代码优先就够了”的单一规则。</p>
+          <p>文档不是“多给 AI 一些背景材料”，Skill 也不是一串死命令。前者解决“资料该信谁”，后者解决“下一步该做什么”。</p>
+<h3>过渡</h3><p>先从最常见的误区开始：不能永远只看代码。</p>
           <h3>依据</h3>
           <ul><li>参考文档：引言、第一章</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--statement" id="slide-03"
@@ -629,116 +678,116 @@
           <div class="is-final"><b>PROVE</b><span>Code · Test</span></div>
         </div>
       </figure>
-<p>本章回答三个问题：</p>
-<ol><li>一条结论应该相信哪种事实源？</li><li>文档如何按 owner 组织，而不是按阅读顺序堆放？</li><li>人与 Agent 如何共享正文，并按 L0–L3 渐进加载？</li></ol>
-<blockquote>这一章的产出是“责任地图”：知道该到哪里找事实，也知道不该把什么混在一起。</blockquote></div>
+<p>本章帮你搞清三件事：</p>
+<ol><li>代码、需求文档和测试结果不一致时，到底该听谁的？</li><li>文档越来越多，怎么一眼找到“谁最清楚这件事”？</li><li>人和 AI 怎么看同一套资料，又只读取当前任务真正需要的内容？</li></ol>
+<blockquote>这一章结束后，你会知道该去哪里找答案，也知道哪些资料不能混在一起看。</blockquote></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>03 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>docs-for-ai 的重点不是多写文档，而是消除事实冲突时的模糊性。后续每一页都会回到一个原则：判断归属、修正 owner、让派生物可验证。</p>
-<h3>过渡</h3><p>先从最关键的判断开始：这条结论究竟属于哪类事实？</p>
+          <p>docs-for-ai 不是让团队多写文档，而是让资料打架时有办法判断。后面的做法很简单：先找最该负责的地方，改那里，再检查它带出来的结果。</p>
+<h3>过渡</h3><p>先从最关键的问题开始：遇到不同说法，到底该信谁？</p>
           <h3>依据</h3>
           <ul><li>参考文档：一、docs-for-ai 不是给 AI 另写一套文档</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--statement" id="slide-04"
-        data-slide="4" data-title="先问：这条结论属于哪一类事实？"
+        data-slide="4" data-title="代码、文档、测试说法不一样，该听谁的？"
         data-chapter="第一章：docs-for-ai 管理工程事实" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第一章：docs-for-ai 管理工程事实</p>
-          <h1 class="slide__title">先问：这条结论属于哪一类事实？</h1>
+          <h1 class="slide__title">代码、文档、测试说法不一样，该听谁的？</h1>
         </header>
-        <div class="slide__body"><table><thead><tr><th>要回答的问题</th><th>主要事实源</th></tr></thead><tbody><tr><td>当前后端如何运行</td><td>source、tests、composition root</td></tr><tr><td>HTTP API 从哪里产生</td><td>Go types 与 Huma operation</td></tr><tr><td>对外 HTTP 快照是什么</td><td><code>backend/openapi.yaml</code></td></tr><tr><td>当前数据库结构</td><td>sqlc schema</td></tr><tr><td>产品希望实现什么</td><td>accepted BRIEF 与 SPEC</td></tr><tr><td>长期设计为何如此</td><td>accepted ADR</td></tr><tr><td>用户路径是否可用</td><td>E2E、contract test、运行验收</td></tr></tbody></table></div>
+        <div class="slide__body"><table><thead><tr><th>你想弄清什么</th><th>优先看哪里</th></tr></thead><tbody><tr><td>后端现在到底怎么跑</td><td>代码、测试、程序启动入口</td></tr><tr><td>API 是怎么定义出来的</td><td>Go 类型和 Huma operation</td></tr><tr><td>对外 API 现在长什么样</td><td><code>backend/openapi.yaml</code></td></tr><tr><td>数据库现在是什么结构</td><td>sqlc schema</td></tr><tr><td>产品原本想让用户做什么</td><td>已确认的 BRIEF 与 SPEC</td></tr><tr><td>当初为什么这么设计</td><td>已确认的 ADR</td></tr><tr><td>用户这条路径到底能不能用</td><td>E2E、契约测试、真实运行验收</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>04 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>“代码优先”不是完整规则。代码与 SPEC 冲突，可能是实现缺陷；OpenAPI 与 operation 冲突，更可能是生成链问题。</p>
-<h3>过渡</h3><p>事实有 owner，冲突也必须回到 owner 解决。</p>
+          <p>“代码优先”不等于所有问题都只看代码。代码和 SPEC 不一样，可能是功能还没做到；OpenAPI 和 operation 不一样，更可能是生成流程出了问题。</p>
+<h3>过渡</h3><p>找到该信谁之后，下一步是只改真正负责的地方。</p>
           <h3>依据</h3>
           <ul><li>参考文档：一、1</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--table" id="slide-05"
-        data-slide="5" data-title="修正 owner，而不是同步所有副本"
+        data-slide="5" data-title="不要到处一起改：先改真正负责的地方"
         data-chapter="第一章：docs-for-ai 管理工程事实" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第一章：docs-for-ai 管理工程事实</p>
-          <h1 class="slide__title">修正 owner，而不是同步所有副本</h1>
+          <h1 class="slide__title">不要到处一起改：先改真正负责的地方</h1>
         </header>
-        <div class="slide__body"><pre data-language="text"><code>确定事实类型 → 找到 owner → 修正 owner + 直接派生物
-                                  ↓
-                   易复发漂移：补 test / generator / CI gate</code></pre>
-<blockquote>同一条规则，只应有一个 owner。</blockquote></div>
+        <div class="slide__body"><pre data-language="text"><code>先弄清问题属于哪类资料 → 找到负责它的源头 → 改源头和直接生成的结果
+                                             ↓
+                          容易反复出错：补测试、生成检查或 CI</code></pre>
+<blockquote>一条规则只留一个“最终说了算”的地方。</blockquote></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>05 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>能从 source、schema 或 manifest 推导的清单应生成并由 CI 检查差异，不应手工复制维护。</p>
-<h3>过渡</h3><p>ownership 也决定了文档目录该如何组织。</p>
+          <p>路由、表、依赖、配置这类能从代码或 schema 算出来的清单，不要手工复制。让工具生成，并在 CI 里检查有没有不一致。</p>
+<h3>过渡</h3><p>所以文档目录也应该按“谁负责什么”来放。</p>
           <h3>依据</h3>
           <ul><li>参考文档：一、1–2</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--statement" id="slide-06"
-        data-slide="6" data-title="文档目录表达 ownership，不表达阅读顺序"
+        data-slide="6" data-title="文档怎么放，才能找得到对的人？"
         data-chapter="第一章：docs-for-ai 管理工程事实" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第一章：docs-for-ai 管理工程事实</p>
-          <h1 class="slide__title slide__title--compact">文档目录表达 ownership，不表达阅读顺序</h1>
+          <h1 class="slide__title">文档怎么放，才能找得到对的人？</h1>
         </header>
-        <div class="slide__body"><table><thead><tr><th>目录</th><th>负责的内容</th></tr></thead><tbody><tr><td><code>product</code> / <code>specifications</code></td><td>产品目标、行为设计、不变量、验收</td></tr><tr><td><code>architecture/current</code> / <code>target</code></td><td>已验证现状 / 尚未落地的方向</td></tr><tr><td><code>domains</code> / <code>contracts</code></td><td>领域 owner、代码入口与公开边界</td></tr><tr><td><code>decisions</code> / <code>delivery</code></td><td>ADR、PLAN、TEST、DEFECT、Delivery Log</td></tr><tr><td><code>guides</code> / <code>operations</code> / <code>reference/generated</code></td><td>方法、运行事实、生成地图</td></tr></tbody></table></div>
+        <div class="slide__body"><table><thead><tr><th>目录</th><th>这里主要放什么</th></tr></thead><tbody><tr><td><code>product</code> / <code>specifications</code></td><td>产品目标、行为设计、不变量、验收</td></tr><tr><td><code>architecture/current</code> / <code>target</code></td><td>已验证现状 / 尚未落地的方向</td></tr><tr><td><code>domains</code> / <code>contracts</code></td><td>领域 owner、代码入口与公开边界</td></tr><tr><td><code>decisions</code> / <code>delivery</code></td><td>ADR、PLAN、TEST、DEFECT、Delivery Log</td></tr><tr><td><code>guides</code> / <code>operations</code> / <code>reference/generated</code></td><td>方法、运行事实、生成地图</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>06 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>目录是责任地图，而非推荐阅读顺序。每类信息都有稳定位置和 owner，Agent 才能按问题取用。</p>
-<h3>过渡</h3><p>其中有三条边界尤其重要。</p>
+          <p>这不是阅读顺序，而是一张“资料放哪、谁负责”的地图。需要哪类信息，就去对应目录找，不必从头读完整个 docs。</p>
+<h3>过渡</h3><p>有三组内容最容易被放混，也最容易误导 AI。</p>
           <h3>依据</h3>
           <ul><li>参考文档：一、2</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--table" id="slide-07"
-        data-slide="7" data-title="三条不能混淆的边界"
+        data-slide="7" data-title="三类资料，千万别混着看"
         data-chapter="第一章：docs-for-ai 管理工程事实" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第一章：docs-for-ai 管理工程事实</p>
-          <h1 class="slide__title">三条不能混淆的边界</h1>
+          <h1 class="slide__title">三类资料，千万别混着看</h1>
         </header>
-        <div class="slide__body"><table><thead><tr><th>不要混淆</th><th>正确边界</th></tr></thead><tbody><tr><td><code>current</code> 与 <code>target</code></td><td>target 不能证明今天已经具备能力</td></tr><tr><td>SPEC 与 PLAN</td><td>SPEC 定义行为与验收；PLAN 记录文件级实施与进度</td></tr><tr><td>运行事实与操作步骤</td><td>operations 记录事实；guides/runbook 记录怎么做</td></tr></tbody></table>
-<p><strong>target 落地后，要以当前代码、配置与测试重新写出已验证结果。</strong></p></div>
+        <div class="slide__body"><table><thead><tr><th>容易混在一起</th><th>实际上应该这样理解</th></tr></thead><tbody><tr><td><code>current</code> 与 <code>target</code></td><td>target 说“准备做什么”，不能证明“今天已经有了”</td></tr><tr><td>SPEC 与 PLAN</td><td>SPEC 说“最后要做成什么”；PLAN 说“这次准备怎么改”</td></tr><tr><td>运行事实与操作步骤</td><td>operations 说“系统现在怎样运行”；guide/runbook 说“操作时怎么做”</td></tr></tbody></table>
+<p><strong>功能落地后，应该根据当前代码、配置和测试重新写 current，不能只把 target 改个状态。</strong></p></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>07 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>不要把目标设计、实施计划或操作手册误当作当前系统事实。</p>
-<h3>过渡</h3><p>人和 Agent 可以有不同入口，但不能拥有不同正文。</p>
+          <p>目标设计、实施计划和操作手册都很有用，但它们不能直接证明系统现在就是这样。</p>
+<h3>过渡</h3><p>接下来再看：人和 AI 怎么从不同入口读到同一份事实。</p>
           <h3>依据</h3>
           <ul><li>参考文档：一、2</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--statement" id="slide-08"
-        data-slide="8" data-title="不同入口，共享同一份工程事实"
+        data-slide="8" data-title="人和 AI 可以从不同入口进来，但要看同一份资料"
         data-chapter="第一章：docs-for-ai 管理工程事实" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第一章：docs-for-ai 管理工程事实</p>
-          <h1 class="slide__title">不同入口，共享同一份工程事实</h1>
+          <h1 class="slide__title slide__title--compact">人和 AI 可以从不同入口进来，但要看同一份资料</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--shared" aria-label="人类与 AI 通过不同入口读取同一套工程事实">
@@ -749,26 +798,26 @@
           <span>Product</span><span>SPEC</span><span>Architecture</span><span>Contract</span>
         </div>
       </figure>
-<ul><li><code>AGENTS</code>：稳定、路径相关、需要常驻的规则；</li><li>Skill：可复用的任务流程与按 lane 触发的细节；</li><li>docs：产品、架构、契约、运行等共享事实；</li><li>test / generator / CI：可机械判断的不变量。</li></ul></div>
+<ul><li><code>AGENTS</code>：某个目录下长期有效、必须遵守的规则；</li><li>Skill：这类任务通常怎么做，哪些情况要多看一步；</li><li>docs：产品、架构、契约、运行方式等大家共用的资料；</li><li>test / generator / CI：机器能直接判断对错的规则。</li></ul></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>08 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>入口不同，正文必须相同。AGENTS 不应塞进长篇背景或一次性结论。</p>
-<h3>过渡</h3><p>正确放置并不意味着一次读完全部文档。</p>
+          <p>入口可以不同，正文不能不同。AGENTS 只放短小、长期有效的规则；不要把大段背景或一次性的结论塞进去。</p>
+<h3>过渡</h3><p>资料放对地方后，也不用一次全读完。</p>
           <h3>依据</h3>
           <ul><li>参考文档：一、3</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--flow" id="slide-09"
-        data-slide="9" data-title="上下文按问题逐层展开"
+        data-slide="9" data-title="不要一上来读全仓：缺什么，再补什么"
         data-chapter="第一章：docs-for-ai 管理工程事实" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第一章：docs-for-ai 管理工程事实</p>
-          <h1 class="slide__title">上下文按问题逐层展开</h1>
+          <h1 class="slide__title">不要一上来读全仓：缺什么，再补什么</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--layers" aria-label="上下文按照 L0 到 L3 逐层展开">
@@ -777,26 +826,26 @@
         <div class="visual__layer visual__layer--1"><b>L1</b><span>源码 · 测试 · 配置 · 消费者</span><small>当前实现证据</small></div>
         <div class="visual__layer visual__layer--0"><b>L0</b><span>任务与路由</span><small>从这里开始</small></div>
       </figure>
-<p>最小证据包通常是：<strong>目标 source + 邻近 test + manifest/generator config + 一个真正需要的 owner 文档。</strong></p></div>
+<p>一个任务刚开始，通常只要：<strong>要改的代码 + 附近的测试 + 相关配置/生成文件 + 一份真正需要的说明文档。</strong></p></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>09 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>代码与产品意图冲突才读 SPEC；涉及长期取舍才读 ADR；focused test 无法证明真实副作用才考虑 E2E。最小不是省 token，而是少引入歧义。</p>
-<h3>过渡</h3><p>docs 告诉我们事实在哪；Skill 决定这次如何把事实组织成行动。</p>
+          <p>代码和产品意图冲突时才读 SPEC；要做长期取舍时才读 ADR；局部测试证明不了真实副作用时才做 E2E。少读不是为了省 token，而是避免无关资料把判断带偏。</p>
+<h3>过渡</h3><p>现在已经知道资料怎么找；下一章看 Skill 怎么把这些资料变成行动。</p>
           <h3>依据</h3>
           <ul><li>参考文档：一、4</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--flow" id="slide-10"
-        data-slide="10" data-title="第二章总览：让事实变成受约束的行动"
+        data-slide="10" data-title="第二章总览：把“该查什么”变成清楚的行动清单"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title">第二章总览：让事实变成受约束的行动</h1>
+          <h1 class="slide__title">第二章总览：把“该查什么”变成清楚的行动清单</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--route-filter" aria-label="任务路由把完整文档树压缩为最小上下文包">
@@ -806,28 +855,28 @@
         <div class="visual__arrow">→</div>
         <div class="visual__pack"><small>按需加载</small><b>最小上下文包</b><span>Instructions · Owner Docs · Gates</span></div>
       </figure>
-<p>本章把一次任务拆成两件事：</p>
-<ul><li><strong>Route：</strong> 以 lane、domain、condition 确定最小行动包；</li><li><strong>Execute / Review：</strong> 在代码中寻找根因，取得并解释证据。</li></ul>
-<p>Route 约束入口、边界与证据责任；它<strong>不</strong>替 Agent 判断根因，也不替人做高影响取舍。</p></div>
+<p>这一章把一次任务分成两件事：</p>
+<ul><li><strong>Route：</strong> 根据改动类型、业务归属和风险情况，列出这次该看的资料和该做的检查；</li><li><strong>Execute / Review：</strong> 回到代码找原因，实际跑检查，再判断证据够不够。</li></ul>
+<p>Route 帮你别漏掉入口、边界和检查项；它<strong>不会</strong>替 AI 猜根因，也不会替人做高影响决定。</p></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>10 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>这一章最容易误解 Route 是“自动解决问题”。它的价值是相同分类的任务不再因不同 Agent 而遗漏不同规则、文档或验证；根因仍由当前代码与运行证据决定。</p>
-<h3>过渡</h3><p>先看 Route 的输入、输出和明确边界。</p>
+          <p>最容易误解的是把 Route 当成“自动解决问题”。它只是保证同类任务不会因为换了一个 Agent，就少看一份规则、少跑一次检查；真正的原因还是要由代码和运行结果来证明。</p>
+<h3>过渡</h3><p>先看 Route 到底拿什么做判断，又会给我们什么。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、Skill 负责把事实组织成行动</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--case" id="slide-11"
-        data-slide="11" data-title="Route 只确定起点，不判断根因"
+        data-slide="11" data-title="Route 只帮你从正确的地方开始查"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title">Route 只确定起点，不判断根因</h1>
+          <h1 class="slide__title">Route 只帮你从正确的地方开始查</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--route-filter" aria-label="任务路由把完整文档树压缩为最小上下文包">
@@ -837,26 +886,26 @@
         <div class="visual__arrow">→</div>
         <div class="visual__pack"><small>按需加载</small><b>最小上下文包</b><span>Instructions · Owner Docs · Gates</span></div>
       </figure>
-<p>Route 输入：<code>lane + domain + condition</code> Route 输出：<code>instructions + owner docs + code roots + contract roots + verification + human gates</code></p></div>
+<p>Route 告诉工具：<code>改动类型 + 业务归属 + 已确认的风险情况</code> Route 返回给 Agent：<code>该遵守的规则 + 该看的资料 + 从哪里搜代码 + 该补哪些检查 + 哪些事要找人确认</code></p></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>11 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>Route 不从错误字符串推导根因，也不决定改哪个函数。它把容易遗漏的入口、边界与证据责任变成确定性约束。</p>
-<h3>过渡</h3><p>这三个输入各自承担不同职责。</p>
+          <p>Route 不会从一条报错猜出根因，也不会指定“改第几个函数”。它做的是把容易漏掉的入口、公开边界和检查要求固定下来。</p>
+<h3>过渡</h3><p>这三个输入分别回答不同问题。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、1</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--table" id="slide-12"
-        data-slide="12" data-title="Lane、Domain、Condition：三个互补维度"
+        data-slide="12" data-title="先说清三件事：改哪类东西、归谁管、有什么风险"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title slide__title--compact">Lane、Domain、Condition：三个互补维度</h1>
+          <h1 class="slide__title">先说清三件事：改哪类东西、归谁管、有什么风险</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--matrix" aria-label="Lane 与 Domain 组成二维任务路由">
@@ -870,47 +919,47 @@
         </div>
         <div class="visual__matrix-output"><small>确定性合并</small><strong>Instructions + Docs + Search Roots + Verification + Gates</strong></div>
       </figure>
-<table><thead><tr><th>维度</th><th>回答的问题</th><th>示例</th></tr></thead><tbody><tr><td>Lane</td><td>按哪种工程方式调查与交付</td><td>backend、contract、data、security</td></tr><tr><td>Domain</td><td>谁拥有业务事实与代码入口</td><td><code>studio.workflow</code></td></tr><tr><td>Condition</td><td>哪些风险事实已确认成立</td><td><code>schema_change</code>、<code>observable_behavior_change</code></td></tr></tbody></table></div>
+<table><thead><tr><th>要说明的事</th><th>它回答的问题</th><th>示例</th></tr></thead><tbody><tr><td>Lane（改动类型）</td><td>这次要按哪种工程方式查和验</td><td>backend、contract、data、security</td></tr><tr><td>Domain（业务归属）</td><td>这块功能和资料主要归谁管</td><td><code>studio.workflow</code></td></tr><tr><td>Condition（已确认风险）</td><td>这次已经确定有哪些额外风险</td><td><code>schema_change</code>、<code>observable_behavior_change</code></td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>12 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>人先识别任务事实；一旦三个输入确定，工具按配置机械展开并去重。</p>
-<h3>过渡</h3><p>行动包的六类输出，各自回答一个不同问题。</p>
+          <p>人先根据任务说清这三件事；一旦确定，工具就按配置列清单并去重，不再临场随意发挥。</p>
+<h3>过渡</h3><p>接下来看看这份清单里具体会有什么。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、1</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--flow" id="slide-13"
-        data-slide="13" data-title="最小行动包：六种边界，不是六份全文"
+        data-slide="13" data-title="工具给的是“该从哪开始”，不是一大包必读材料"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title">最小行动包：六种边界，不是六份全文</h1>
+          <h1 class="slide__title">工具给的是“该从哪开始”，不是一大包必读材料</h1>
         </header>
-        <div class="slide__body"><table><thead><tr><th>输出</th><th>它回答的问题</th></tr></thead><tbody><tr><td>instructions</td><td>目标路径下必须遵守哪些操作规则？</td></tr><tr><td>owner docs</td><td>哪些文档拥有本次所需事实？</td></tr><tr><td>code roots</td><td>从哪里搜索当前实现？</td></tr><tr><td>contract roots</td><td>哪些公开边界约束实现？</td></tr><tr><td>verification</td><td>还欠哪些证据责任？</td></tr><tr><td>human gates</td><td>哪些决定不能静默做出？</td></tr></tbody></table></div>
+        <div class="slide__body"><table><thead><tr><th>工具给出的内容</th><th>它帮你回答什么</th></tr></thead><tbody><tr><td>instructions</td><td>在这个目录里做事，有哪些必须遵守的规则？</td></tr><tr><td>owner docs</td><td>哪些文档最清楚这次需要的事实？</td></tr><tr><td>code roots</td><td>第一轮应该从哪里搜当前实现？</td></tr><tr><td>contract roots</td><td>哪些对外接口或跨模块约定不能忘？</td></tr><tr><td>verification</td><td>最后还必须拿到哪些检查结果？</td></tr><tr><td>human gates</td><td>哪些事不能让 AI 自己悄悄决定？</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>13 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>这些是稳定入口，不是要求一次读取的资料包。返回 SPEC index，是需要时从入口继续选择具体 SPEC。</p>
-<h3>过渡</h3><p>前三项收窄调查范围，后两项控制如何宣称完成。</p>
+          <p>这些是入口，不是要求一次全部读完。比如返回 SPEC index，只表示需要时从这里继续找到对应需求，不是要把整个目录塞进上下文。</p>
+<h3>过渡</h3><p>前面几项让搜索不跑偏，后面两项让“任务完成”的说法有依据。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、1</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--list" id="slide-14"
-        data-slide="14" data-title="工作流任务：路由的确定性展开"
+        data-slide="14" data-title="同一个输入，每次都会得到同一份任务清单"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title">工作流任务：路由的确定性展开</h1>
+          <h1 class="slide__title">同一个输入，每次都会得到同一份任务清单</h1>
         </header>
         <div class="slide__body"><pre data-language="text"><code>输入：backend + studio.workflow + observable_behavior_change
 
@@ -923,21 +972,21 @@ human gates: none</code></pre></div>
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>14 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>相同输入、相同配置版本和目录结构，必然产生相同行动包。每一项都能反查来源。</p>
-<h3>过渡</h3><p>配置负责缩小空间；Agent 负责在空间内探索根因。</p>
+          <p>只要输入、配置版本和目录结构相同，工具每次都会给出同一份清单；而且每一项都能追溯：是改动类型、风险条件、领域登记，还是目录里的 AGENTS 规则带来的。</p>
+<h3>过渡</h3><p>清单负责把范围缩小；接下来才是 Agent 在这个范围里找真正原因。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、1，“工具如何一步步合并”</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--list" id="slide-15"
-        data-slide="15" data-title="Route、Execute、Review 各司其职"
+        data-slide="15" data-title="路由、执行、复盘：不要把三件事混在一起"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title slide__title--compact">Route、Execute、Review 各司其职</h1>
+          <h1 class="slide__title">路由、执行、复盘：不要把三件事混在一起</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--loop" aria-label="AI 工程交付的五阶段反馈循环">
@@ -950,26 +999,26 @@ human gates: none</code></pre></div>
         </div>
         <div class="visual__feedback"><span>发现新事实</span><strong>↶ Feedback：修正路线，而不是坚持最初猜测</strong></div>
       </figure>
-<table><thead><tr><th>阶段</th><th>必须回答的问题</th></tr></thead><tbody><tr><td>Explore</td><td>当前事实支持哪些假设？什么能推翻它？</td></tr><tr><td>Implement</td><td>真正的 owner 在哪里？哪些边界不变？</td></tr><tr><td>Verify</td><td>每层证据证明什么、没有证明什么？</td></tr><tr><td>Close</td><td>哪些已完成、哪些未运行、还剩什么风险？</td></tr></tbody></table></div>
+<table><thead><tr><th>阶段</th><th>这一步要说清什么</th></tr></thead><tbody><tr><td>Explore</td><td>现在有哪些可能原因？什么结果能推翻它？</td></tr><tr><td>Implement</td><td>真正该改哪里？哪些边界绝不能动？</td></tr><tr><td>Verify</td><td>每个检查证明了什么，又没证明什么？</td></tr><tr><td>Close</td><td>已经做完什么？没跑什么？还可能有什么风险？</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>15 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>verification 只是证据责任清单，不代表检查已运行。Execute 取得证据，Review 才判断是否足以支持完成。</p>
-<h3>过渡</h3><p>验证尤其不能用一层证据替代另一层结论。</p>
+          <p>verification 只是“还欠哪些检查”的清单，不代表已经跑过。先实际执行拿结果，再判断结果够不够支撑“完成”。</p>
+<h3>过渡</h3><p>尤其要记住：不同层的检查，不能互相替代。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、1–2</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--case" id="slide-16"
-        data-slide="16" data-title="验证有层级，结论也必须有层级"
+        data-slide="16" data-title="单元测试通过，不等于用户真的能用"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title">验证有层级，结论也必须有层级</h1>
+          <h1 class="slide__title">单元测试通过，不等于用户真的能用</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--verification" aria-label="验证随真实影响面逐层扩展">
@@ -979,26 +1028,26 @@ human gates: none</code></pre></div>
         <div class="visual__verify-step"><b>Integration / E2E</b><span>真实跨系统副作用</span></div>
         <div class="visual__risk-arrow">风险与 blast radius 增大 →</div>
       </figure>
-<table><thead><tr><th>层级</th><th>能证明什么</th></tr></thead><tbody><tr><td>focused</td><td>被修改的局部机制正确</td></tr><tr><td>contract / consumer</td><td>边界一致；已检查调用方可适配</td></tr><tr><td>integration</td><td>真实组件协作与副作用正常</td></tr><tr><td>acceptance</td><td>用户原来失败的行为已经恢复</td></tr></tbody></table></div>
+<table><thead><tr><th>检查层级</th><th>它最多能说明什么</th></tr></thead><tbody><tr><td>focused</td><td>你刚改的那块局部逻辑是对的</td></tr><tr><td>contract / consumer</td><td>接口没变坏；检查到的调用方还能接上</td></tr><tr><td>integration</td><td>真实组件连起来后，协作和副作用正常</td></tr><tr><td>acceptance</td><td>用户原来做不到的事，现在真的做到了</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>16 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>从最小直接证据开始，根据共享 contract、consumer、wiring 或真实副作用扩大。函数测试通过绝不自动等于用户流程恢复。</p>
-<h3>过渡</h3><p>下面看一次真实工作流故障如何按这个机制推进。</p>
+          <p>先跑能直接证明修改的最小检查。只有改到公共接口、调用方、装配代码或真实副作用时，才扩大范围。函数测试绿了，绝不自动等于用户流程恢复。</p>
+<h3>过渡</h3><p>下面用一次真实故障，看这套方法怎样一步步避免误判。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、1，verification</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--flow" id="slide-17"
-        data-slide="17" data-title="第三章总览：一次故障如何走完交付链"
+        data-slide="17" data-title="第三章总览：一次报错，怎样一步步查到真正原因"
         data-chapter="第三章：工作流故障交付案例" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第三章：工作流故障交付案例</p>
-          <h1 class="slide__title">第三章总览：一次故障如何走完交付链</h1>
+          <h1 class="slide__title">第三章总览：一次报错，怎样一步步查到真正原因</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--loop" aria-label="AI 工程交付的五阶段反馈循环">
@@ -1011,79 +1060,79 @@ human gates: none</code></pre></div>
         </div>
         <div class="visual__feedback"><span>发现新事实</span><strong>↶ Feedback：修正路线，而不是坚持最初猜测</strong></div>
       </figure>
-<p>案例将展示四个关键转折：</p>
-<ol><li>用户错误被改写为带边界的工程任务；</li><li>第一层根因定位到跨域请求缺少执行人身份；</li><li>focused 证据通过后，真实验收仍推翻第一次 Close；</li><li>第二层根因进入回归测试、DEFECT 与 Delivery Log。</li></ol>
-<blockquote>目标不是“一次猜中”，而是让新证据能安全地改变结论。</blockquote></div>
+<p>这个案例会经历四个转折：</p>
+<ol><li>把用户报错改成“要恢复什么、又不能破坏什么”的任务；</li><li>第一次查到：跨服务请求漏带了真正执行人的身份；</li><li>局部测试通过后，真实试运行仍然失败；</li><li>第二个原因被写进回归测试、缺陷记录和交付日志。</li></ol>
+<blockquote>重点不是“一次猜中”，而是新证据出现时，我们能及时改正判断。</blockquote></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>17 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>这不是一个“AI 一次修好”的故事。它说明为什么高质量交付需要分层验证和可恢复的 Explore：局部机制成立，仍可能无法证明真实用户路径。</p>
-<h3>过渡</h3><p>从用户看到的稳定故障开始。</p>
+          <p>这不是“AI 一次修好”的故事。它说明局部逻辑没问题，不代表真实用户就能用；所以查问题时必须允许结论被新证据推翻。</p>
+<h3>过渡</h3><p>先从用户每次都会看到的报错开始。</p>
           <h3>依据</h3>
           <ul><li>参考文档：三、案例：Skill + docs 如何完成一次工作流故障交付</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--standard" id="slide-18"
-        data-slide="18" data-title="案例起点：工作流知识库检索失败"
+        data-slide="18" data-title="用户看到的现象：一加知识库检索就失败"
         data-chapter="第三章：工作流故障交付案例" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第三章：工作流故障交付案例</p>
-          <h1 class="slide__title">案例起点：工作流知识库检索失败</h1>
+          <h1 class="slide__title">用户看到的现象：一加知识库检索就失败</h1>
         </header>
         <div class="slide__body"><pre data-language="text"><code>场景：工作流画布 → 试运行 → 异步轮询结果
 症状：Dataset（知识库检索）节点失败
 
 Workflow execution failure: identity reference is invalid
 executeStatus=3（失败）  nodeStatus=4（节点错误）</code></pre>
-<ul><li>开始节点正常；带检索节点的试运行稳定失败；</li><li>会话、权限或重试都只是待验证假设。</li></ul></div>
+<ul><li>开始节点没问题；一加检索节点，试运行就稳定失败；</li><li>会话、权限、重试看起来都像原因，但还没有证据。</li></ul></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>18 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>先把报错改写为工程任务：恢复检索节点试运行，但不放宽身份校验，也不伪造执行主体。</p>
-<h3>过渡</h3><p>Route 给出入口后，Explore 沿错误定义向上游收敛。</p>
+          <p>先把报错改成清楚的任务：让检索节点能试运行；同时不放松身份校验，也不能拿别人的身份来冒充当前执行人。</p>
+<h3>过渡</h3><p>拿到 Route 给的入口后，就从报错定义一路往上查。</p>
           <h3>依据</h3>
           <ul><li>参考文档：三、1–3</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--flow" id="slide-19"
-        data-slide="19" data-title="Explore：先证明安全契约没有错"
+        data-slide="19" data-title="先别急着删校验：它拒绝得没有错"
         data-chapter="第三章：工作流故障交付案例" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第三章：工作流故障交付案例</p>
-          <h1 class="slide__title">Explore：先证明安全契约没有错</h1>
+          <h1 class="slide__title">先别急着删校验：它拒绝得没有错</h1>
         </header>
         <div class="slide__body"><pre data-language="text"><code>identity reference is invalid
   → identityref.ErrInvalidIdentifier
   → knowledge contract Retrieve 解析 Tenant / Workspace
   → 身份字段为空：拒绝请求（正确的 fail-closed）</code></pre>
-<p><strong>第一层根因：</strong> Workflow 的跨域检索请求没有携带契约要求的执行人身份。</p></div>
+<p><strong>第一次找到的原因：</strong> Workflow 发给知识库的请求，漏带了契约要求的“当前执行人身份”。</p></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>19 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>修复不能放宽 Knowledge 校验；责任在调用方构造正确的跨域请求。全仓扫描再定义应覆盖的调用点。</p>
-<h3>过渡</h3><p>在真正 owner 层补齐身份，不在安全边界打补丁。</p>
+          <p>不能为了让请求通过就放宽 Knowledge 的校验。校验本来是对的；该改的是调用方，让它把完整身份带过去。随后再全仓搜索同类调用，确认不能只修一个入口。</p>
+<h3>过渡</h3><p>该补的信息放在发起请求的一侧，不去拆安全门。</p>
           <h3>依据</h3>
           <ul><li>参考文档：三、3、5</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--case" id="slide-20"
-        data-slide="20" data-title="Implement：只在真正 owner 层补齐身份"
+        data-slide="20" data-title="修复方式：把真正执行人的身份一起带过去"
         data-chapter="第三章：工作流故障交付案例" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第三章：工作流故障交付案例</p>
-          <h1 class="slide__title slide__title--compact">Implement：只在真正 owner 层补齐身份</h1>
+          <h1 class="slide__title">修复方式：把真正执行人的身份一起带过去</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--field-chain" aria-label="一个字段变更跨越完整工程链路">
@@ -1095,26 +1144,26 @@ executeStatus=3（失败）  nodeStatus=4（节点错误）</code></pre>
           <span>Tests</span><i>←</i><span>Consumer</span><i>←</i><span>Generated Client</span><i>←</i><span>OpenAPI</span>
         </div>
       </figure>
-<ol><li><code>Build</code> 从执行人会话捕获 <code>CanonicalScope</code>；</li><li><code>Invoke</code> 显式将身份注入跨域请求；</li><li>覆盖检索、文档写入、文档删除等调用点；</li><li>缺少会话仍 fail-closed，不发起请求。</li></ol></div>
+<ol><li><code>Build</code> 阶段从执行人会话取出 <code>CanonicalScope</code>；</li><li><code>Invoke</code> 阶段明确把身份放进跨服务请求；</li><li>检索、文档写入、文档删除等入口一起补齐；</li><li>没有会话时仍然拒绝，不偷偷发一个身份不完整的请求。</li></ol></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>20 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>不从 ctx 隐式反查会话，不让 workflow creator 冒充执行主体，也不放宽 Knowledge 校验。最小改动，是只修错误的事实层。</p>
-<h3>过渡</h3><p>focused test 证明局部机制，但还不能关闭用户任务。</p>
+          <p>不从 ctx 里暗中反查会话，不让 workflow 创建人冒充当前执行人，也不放宽 Knowledge 校验。所谓“最小改动”，是只改错的地方，不是尽量少改几行。</p>
+<h3>过渡</h3><p>局部测试只能证明这段传递逻辑；用户任务能不能关，还要回到真实试运行。</p>
           <h3>依据</h3>
           <ul><li>参考文档：三、5–6</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--standard" id="slide-21"
-        data-slide="21" data-title="运行反馈推翻第一次 Close"
+        data-slide="21" data-title="真实试运行仍失败：第一次结论被推翻"
         data-chapter="第三章：工作流故障交付案例" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第三章：工作流故障交付案例</p>
-          <h1 class="slide__title">运行反馈推翻第一次 Close</h1>
+          <h1 class="slide__title">真实试运行仍失败：第一次结论被推翻</h1>
         </header>
         <div class="slide__body"><pre data-language="text"><code>Focused tests：身份已显式传递 ✓
 真实试运行：仍然 identity reference is invalid ✗
@@ -1122,26 +1171,26 @@ executeStatus=3（失败）  nodeStatus=4（节点错误）</code></pre>
 新证据：运行前 reset session cache
         → 上层 ctx 仍有 session
         → 下游重新读取时却拿到空身份</code></pre>
-<blockquote>新证据不是失败；它要求重新打开 Explore，并修正路线。</blockquote></div>
+<blockquote>发现新证据不是白做了，而是提醒我们：要回去继续查，不能硬说已经修好。</blockquote></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>21 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>准确结论只能是“局部修复已验证，用户场景尚未验收”。第二层根因是 session 被 context cache 遮蔽。</p>
-<h3>过渡</h3><p>第二轮先用红测定义修复，再让 session 穿过 cache reset。</p>
+          <p>这时只能说“局部修复已经验证，用户场景还没有验收”。后来发现第二个原因是：session 被 context cache 挡住了，下游重新读取时看不到它。</p>
+<h3>过渡</h3><p>第二轮先写一个会失败的测试，再修复 cache reset 后拿不到 session 的问题。</p>
           <h3>依据</h3>
           <ul><li>参考文档：三、7–10</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--standard" id="slide-22"
-        data-slide="22" data-title="Close：用证据描述结果，也描述边界"
+        data-slide="22" data-title="结束任务时，要把“知道什么、不知道什么”写下来"
         data-chapter="第三章：工作流故障交付案例" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第三章：工作流故障交付案例</p>
-          <h1 class="slide__title">Close：用证据描述结果，也描述边界</h1>
+          <h1 class="slide__title">结束任务时，要把“知道什么、不知道什么”写下来</h1>
         </header>
         <div class="slide__body">
       <figure class="visual visual--routing-feedback" aria-label="路由日志驱动持续优化闭环">
@@ -1151,47 +1200,47 @@ executeStatus=3（失败）  nodeStatus=4（节点错误）</code></pre>
         <div class="visual__improve"><small>人工复核</small><b>优化 Router / Owner / Gate</b></div>
         <div class="visual__return-arrow">下一次任务得到更准、更小的上下文 ↺</div>
       </figure>
-<table><thead><tr><th>交付物</th><th>记录的内容</th></tr></thead><tbody><tr><td>DEFECT</td><td>假设、被推翻的原因、正确根因与处理</td></tr><tr><td>TEST</td><td>局部修复与 cache-reset 回归证据</td></tr><tr><td>Delivery Log</td><td>实际运行验证、未运行项与残余风险</td></tr><tr><td>Router feedback</td><td>下一次应复用的入口、验证或 gate</td></tr></tbody></table></div>
+<table><thead><tr><th>留下的记录</th><th>里面写什么</th></tr></thead><tbody><tr><td>DEFECT</td><td>当时怎么猜、为什么被推翻、最后怎么处理</td></tr><tr><td>TEST</td><td>两次修复分别有什么回归证据</td></tr><tr><td>Delivery Log</td><td>实际跑了什么、没跑什么、还可能有什么风险</td></tr><tr><td>Router feedback</td><td>下次遇到类似任务，该提前看什么、验什么、何时找人确认</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>22 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>Close 不是一句“done”。它必须让下一位人或 Agent 看得出什么已被证明、什么没有、为什么选择此修复。</p>
-<h3>过渡</h3><p>最后，把整套做法压缩成团队可复用的检查表。</p>
+          <p>Close 不是一句“done”。它要让下一位人或 AI 看懂：哪些已经证明了，哪些还没有，为什么最后这样改。</p>
+<h3>过渡</h3><p>最后把整套做法变成每次都能用的七个问题。</p>
           <h3>依据</h3>
           <ul><li>参考文档：三、12–13、结语</li></ul>
-        </template>
+        </aside>
       </section>
 
       <section class="slide slide--checklist" id="slide-23"
-        data-slide="23" data-title="下一次交给 AI 前，先问七个问题"
+        data-slide="23" data-title="下次让 AI 动手前，先问这七个问题"
         data-chapter="结语：下一次任务的七个问题" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">结语：下一次任务的七个问题</p>
-          <h1 class="slide__title">下一次交给 AI 前，先问七个问题</h1>
+          <h1 class="slide__title">下次让 AI 动手前，先问这七个问题</h1>
         </header>
-        <div class="slide__body"><ol><li>我描述的是结果，还是只有动作？</li><li>哪些行为与安全边界明确不变？</li><li>这条结论属于哪类事实，由谁拥有？</li><li>命中了哪些 lane、domain、condition？</li><li>当前最小证据包是什么，何时需要扩展？</li><li>哪个决定必须由人确认？</li><li>哪些证据已运行，哪些仍未运行？</li></ol>
-<blockquote>高质量 AI 编码，是定义边界、路由事实、验证影响面，并把决定权留给人。</blockquote></div>
+        <div class="slide__body"><ol><li>我说清了想要的结果，还是只说了“帮我改一下”？</li><li>哪些行为和安全边界绝对不能变？</li><li>代码、文档、测试不一致时，该去哪里找最终答案？</li><li>这次改动属于哪类工作，主要归哪个业务域？</li><li>一开始最少该看什么？什么情况下需要多查一步？</li><li>哪个取舍必须由人来拍板？</li><li>哪些检查已经跑过，哪些还没跑？</li></ol>
+<blockquote>高质量 AI 编码，就是先说清边界，找对资料，按影响范围验证，把该由人决定的事留给人。</blockquote></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>23 / 23</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
-          <p>docs-for-ai 让工程事实有 owner；Skill 让每次任务有可复用的行动与证据责任。两者都不替代判断，但能让判断基于正确事实、以正确边界交付。</p>
+          <p>docs-for-ai 让我们找得到该信的资料；Skill 让每次任务知道该做什么、还缺什么证据。它们不替人判断，但能让判断建立在更可靠的信息上。</p>
 
           <h3>依据</h3>
           <ul><li>参考文档：结语</li></ul>
-        </template>
+        </aside>
       </section>
-  </main>
+  </div></main>
 
-  <div class="progress" aria-hidden="true"><div class="progress__bar"></div></div>
-  <nav class="controls" aria-label="幻灯片控制">
+  <div class="progress" aria-hidden="true" hidden><div class="progress__bar"></div></div>
+  <nav class="controls" aria-label="幻灯片控制" hidden>
     <button type="button" data-action="previous" aria-label="上一页">←</button>
-    <span class="controls__count" aria-live="off">01 / 20</span>
+    <span class="controls__count" aria-live="off">01 / 23</span>
     <button type="button" data-action="next" aria-label="下一页">→</button>
     <button type="button" data-action="overview" data-secondary aria-label="总览">总览</button>
     <button type="button" data-action="notes" data-secondary aria-label="讲者备注">备注</button>
@@ -1199,21 +1248,21 @@ executeStatus=3（失败）  nodeStatus=4（节点错误）</code></pre>
     <button type="button" data-action="help" data-secondary aria-label="快捷键帮助">?</button>
   </nav>
 
-  <aside class="panel" id="notes-panel" aria-label="讲者备注">
+  <aside class="panel" id="notes-panel" aria-label="讲者备注" hidden>
     <div class="panel__surface">
       <div class="panel__head"><h2>讲者备注</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="notes__content"></div>
     </div>
   </aside>
 
-  <aside class="panel" id="overview-panel" aria-label="幻灯片总览">
+  <aside class="panel" id="overview-panel" aria-label="幻灯片总览" hidden>
     <div class="panel__surface">
-      <div class="panel__head"><h2>20 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
+      <div class="panel__head"><h2>23 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="overview__grid"></div>
     </div>
   </aside>
 
-  <aside class="panel" id="help-panel" aria-label="快捷键帮助">
+  <aside class="panel" id="help-panel" aria-label="快捷键帮助" hidden>
     <div class="panel__surface">
       <div class="panel__head"><h2>演示快捷键</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="help__grid">
@@ -1230,190 +1279,52 @@ executeStatus=3（失败）  nodeStatus=4（节点错误）</code></pre>
   </aside>
 
   <p class="sr-only" id="live-region" aria-live="polite"></p>
+  <script src="./vendor/reveal.js/reveal.js"></script>
+  <script src="./vendor/reveal.js/notes.js"></script>
   <script>
     (() => {
-      const slides = [...document.querySelectorAll('.slide')];
-      const stage = document.querySelector('.stage');
-      const progress = document.querySelector('.progress__bar');
-      const count = document.querySelector('.controls__count');
-      const notesPanel = document.querySelector('#notes-panel');
-      const notesContent = document.querySelector('.notes__content');
-      const overviewPanel = document.querySelector('#overview-panel');
-      const overviewGrid = document.querySelector('.overview__grid');
-      const helpPanel = document.querySelector('#help-panel');
-      const liveRegion = document.querySelector('#live-region');
-      let current = 0;
-      let touchStartX = null;
-      let wheelLocked = false;
-
-      function scaleStage() {
-        const scale = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
-        document.documentElement.style.setProperty('--stage-scale', String(scale));
-      }
-
-      function hashIndex() {
-        const match = window.location.hash.match(/^#slide-(\d{2})$/);
-        if (!match) return 0;
-        return Math.min(Math.max(Number(match[1]) - 1, 0), slides.length - 1);
-      }
-
-      function updateOverview() {
-        overviewGrid.querySelectorAll('.overview__item').forEach((item, index) => {
-          item.classList.toggle('is-current', index === current);
-        });
-      }
-
-      function show(index, updateHash = true) {
-        current = Math.min(Math.max(index, 0), slides.length - 1);
-        slides.forEach((slide, slideIndex) => {
-          const active = slideIndex === current;
-          slide.classList.toggle('is-active', active);
-          slide.setAttribute('aria-hidden', String(!active));
-        });
-        const label = String(current + 1).padStart(2, '0');
-        count.textContent = label + ' / ' + String(slides.length).padStart(2, '0');
-        progress.style.width = ((current + 1) / slides.length * 100) + '%';
-        document.title = label + ' · ' + slides[current].dataset.title + ' — AI 高质量编码';
-        liveRegion.textContent = '第 ' + (current + 1) + ' 页：' + slides[current].dataset.title;
-        if (updateHash) history.replaceState(null, '', '#slide-' + label);
-        updateOverview();
-        if (notesPanel.classList.contains('is-open')) renderNotes();
-      }
-
-      function closePanels() {
-        [notesPanel, overviewPanel, helpPanel].forEach((panel) => panel.classList.remove('is-open'));
-      }
-
-      function renderNotes() {
-        const template = slides[current].querySelector('.slide__notes');
-        notesContent.innerHTML = template.innerHTML;
-      }
-
-      function togglePanel(panel) {
-        const willOpen = !panel.classList.contains('is-open');
-        closePanels();
-        if (willOpen) {
-          if (panel === notesPanel) renderNotes();
-          panel.classList.add('is-open');
-          panel.querySelector('button, [tabindex]')?.focus();
-        }
-      }
-
-      function toggleFullscreen() {
-        if (document.fullscreenElement) {
-          document.exitFullscreen?.();
-        } else {
-          document.documentElement.requestFullscreen?.();
-        }
-      }
-
-      function buildOverview() {
-        overviewGrid.innerHTML = slides.map((slide, index) =>
-          '<button class="overview__item" data-index="' + index + '">' +
-          '<span class="overview__number">' + String(index + 1).padStart(2, '0') + ' · ' + slide.dataset.chapter + '</span>' +
-          '<span class="overview__title">' + slide.dataset.title + '</span></button>'
-        ).join('');
-        overviewGrid.addEventListener('click', (event) => {
-          const item = event.target.closest('.overview__item');
-          if (!item) return;
-          show(Number(item.dataset.index));
-          closePanels();
-        });
-      }
+      const deck = new Reveal({
+        width: 1600,
+        height: 900,
+        margin: 0,
+        minScale: 0.1,
+        maxScale: 2,
+        center: false,
+        controls: true,
+        progress: true,
+        slideNumber: "c/t",
+        hash: true,
+        keyboard: true,
+        overview: true,
+        transition: "fade",
+        backgroundTransition: "fade",
+        plugins: [RevealNotes],
+      });
 
       function auditLayout() {
         const overflows = [];
         const titleOverflows = [];
-        slides.forEach((slide, index) => {
-          const previousDisplay = slide.style.display;
-          const previousVisibility = slide.style.visibility;
-          slide.style.display = 'grid';
-          slide.style.visibility = 'hidden';
+        document.querySelectorAll('.reveal .slides > section.slide').forEach((slide, index) => {
           const body = slide.querySelector('.slide__body');
           const title = slide.querySelector('.slide__title');
           if (body.scrollHeight > body.clientHeight + 1 || body.scrollWidth > body.clientWidth + 1) {
             overflows.push(index + 1);
           }
           if (title.scrollWidth > title.clientWidth + 1) titleOverflows.push(index + 1);
-          slide.style.display = previousDisplay;
-          slide.style.visibility = previousVisibility;
         });
         window.__deckAudit = {
-          slideCount: slides.length,
+          engine: 'reveal.js',
+          slideCount: deck.getTotalSlides(),
           overflows,
           titleOverflows,
-          activeSlide: current + 1,
-          scale: Number(getComputedStyle(document.documentElement).getPropertyValue('--stage-scale')),
+          activeSlide: deck.getSlidePastCount() + 1,
         };
-        if (overflows.length || titleOverflows.length) {
-          console.error('Deck layout audit failed', window.__deckAudit);
-        }
-        return window.__deckAudit;
+        if (overflows.length || titleOverflows.length) console.error('Deck layout audit failed', window.__deckAudit);
       }
 
-      document.querySelector('[data-action="previous"]').addEventListener('click', () => show(current - 1));
-      document.querySelector('[data-action="next"]').addEventListener('click', () => show(current + 1));
-      document.querySelector('[data-action="overview"]').addEventListener('click', () => togglePanel(overviewPanel));
-      document.querySelector('[data-action="notes"]').addEventListener('click', () => togglePanel(notesPanel));
-      document.querySelector('[data-action="fullscreen"]').addEventListener('click', toggleFullscreen);
-      document.querySelector('[data-action="help"]').addEventListener('click', () => togglePanel(helpPanel));
-      document.querySelectorAll('.panel__close').forEach((button) => button.addEventListener('click', closePanels));
-
-      document.addEventListener('keydown', (event) => {
-        const panelOpen = document.querySelector('.panel.is-open');
-        if (event.key === 'Escape') {
-          closePanels();
-          return;
-        }
-        if (panelOpen) return;
-        if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(event.key)) {
-          event.preventDefault();
-          show(current + 1);
-        } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) {
-          event.preventDefault();
-          show(current - 1);
-        } else if (event.key === 'Home') {
-          show(0);
-        } else if (event.key === 'End') {
-          show(slides.length - 1);
-        } else if (event.key.toLowerCase() === 'n') {
-          togglePanel(notesPanel);
-        } else if (event.key.toLowerCase() === 'o') {
-          togglePanel(overviewPanel);
-        } else if (event.key.toLowerCase() === 'f') {
-          toggleFullscreen();
-        } else if (event.key === '?') {
-          togglePanel(helpPanel);
-        }
-      });
-
-      document.addEventListener('touchstart', (event) => {
-        touchStartX = event.changedTouches[0]?.clientX ?? null;
-      }, { passive: true });
-      document.addEventListener('touchend', (event) => {
-        if (touchStartX === null) return;
-        const delta = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
-        if (Math.abs(delta) > 60) show(current + (delta < 0 ? 1 : -1));
-        touchStartX = null;
-      }, { passive: true });
-
-      document.addEventListener('wheel', (event) => {
-        if (wheelLocked || document.querySelector('.panel.is-open') || Math.abs(event.deltaY) < 20) return;
-        wheelLocked = true;
-        show(current + (event.deltaY > 0 ? 1 : -1));
-        window.setTimeout(() => { wheelLocked = false; }, 450);
-      }, { passive: true });
-
-      window.addEventListener('resize', () => {
-        scaleStage();
-        window.requestAnimationFrame(auditLayout);
-      });
-      window.addEventListener('hashchange', () => show(hashIndex(), false));
-      window.addEventListener('load', () => window.requestAnimationFrame(auditLayout));
-
-      buildOverview();
-      scaleStage();
-      show(hashIndex(), false);
+      deck.on('ready', auditLayout);
+      deck.on('slidechanged', auditLayout);
+      deck.initialize();
     })();
 </script>
 </body>

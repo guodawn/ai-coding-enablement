@@ -372,13 +372,13 @@ function renderSlide(slide, total) {
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>${slide.numberLabel} / ${String(total).padStart(2, "0")}</span>
         </footer>
-        <template class="slide__notes">
+        <aside class="notes">
           <h2>讲者备注</h2>
           ${renderMarkdown(slide.notes)}
 ${slide.transition ? `<h3>过渡</h3>${renderMarkdown(slide.transition)}` : ""}
           <h3>依据</h3>
           ${renderMarkdown(slide.sources)}
-        </template>
+        </aside>
       </section>`;
 }
 
@@ -931,6 +931,55 @@ const STYLES = String.raw`
     }
 `;
 
+const REVEAL_OVERRIDES = String.raw`
+    [hidden] { display: none !important; }
+    .reveal { background: #dfe4e7; color: var(--ink); font-family: inherit; }
+    .reveal .slides { text-align: left; }
+    .reveal .slides > section.slide {
+      display: grid !important;
+      width: 1600px;
+      height: 900px;
+      min-height: 900px;
+      margin: 0;
+      padding: 62px 92px 44px;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 22px;
+      background:
+        linear-gradient(90deg, var(--accent) 0 12px, transparent 12px),
+        linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
+      color: var(--ink);
+      font-size: initial;
+      line-height: normal;
+      text-align: left;
+      transform-style: flat;
+    }
+    .reveal .slides > section.slide .slide__title,
+    .reveal .slides > section.slide .slide__body,
+    .reveal .slides > section.slide .slide__footer { text-transform: none; }
+    .reveal .slides > section.slide .slide__header { max-width: none; }
+    .reveal .slides > section.slide .slide__body { overflow: hidden; }
+    .reveal .slides > section.slide .notes { display: none; }
+    .reveal .controls {
+      right: 18px;
+      bottom: 18px;
+      display: block;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+    .reveal .controls button { min-width: 0; height: auto; padding: 0; border-radius: 0; }
+    .reveal .progress { position: absolute; height: 4px; background: rgb(20 108 120 / 16%); }
+    .reveal .progress span { background: var(--accent); }
+    .reveal .slide-number { right: 92px; bottom: 22px; color: var(--muted); background: transparent; font-size: 15px; }
+    @media print {
+      .reveal .slides > section.slide { display: grid !important; }
+      .reveal .controls, .reveal .progress, .reveal .slide-number { display: none !important; }
+    }
+`;
+
 const CLIENT_SCRIPT = String.raw`
     (() => {
       const slides = [...document.querySelectorAll('.slide')];
@@ -1118,6 +1167,53 @@ const CLIENT_SCRIPT = String.raw`
     })();
 `;
 
+const REVEAL_CLIENT_SCRIPT = String.raw`
+    (() => {
+      const deck = new Reveal({
+        width: 1600,
+        height: 900,
+        margin: 0,
+        minScale: 0.1,
+        maxScale: 2,
+        center: false,
+        controls: true,
+        progress: true,
+        slideNumber: "c/t",
+        hash: true,
+        keyboard: true,
+        overview: true,
+        transition: "fade",
+        backgroundTransition: "fade",
+        plugins: [RevealNotes],
+      });
+
+      function auditLayout() {
+        const overflows = [];
+        const titleOverflows = [];
+        document.querySelectorAll('.reveal .slides > section.slide').forEach((slide, index) => {
+          const body = slide.querySelector('.slide__body');
+          const title = slide.querySelector('.slide__title');
+          if (body.scrollHeight > body.clientHeight + 1 || body.scrollWidth > body.clientWidth + 1) {
+            overflows.push(index + 1);
+          }
+          if (title.scrollWidth > title.clientWidth + 1) titleOverflows.push(index + 1);
+        });
+        window.__deckAudit = {
+          engine: 'reveal.js',
+          slideCount: deck.getTotalSlides(),
+          overflows,
+          titleOverflows,
+          activeSlide: deck.getSlidePastCount() + 1,
+        };
+        if (overflows.length || titleOverflows.length) console.error('Deck layout audit failed', window.__deckAudit);
+      }
+
+      deck.on('ready', auditLayout);
+      deck.on('slidechanged', auditLayout);
+      deck.initialize();
+    })();
+`;
+
 const markdown = readFileSync(sourcePath, "utf8");
 const slides = parseSlides(markdown);
 if (slides.length !== 23) {
@@ -1137,18 +1233,19 @@ const html = `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="团队内部赋能：用工程上下文与反馈闭环指导 AI 高质量编码。">
   <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./vendor/reveal.js/reveal.css">
   <title>从工程事实到可验证交付 — AI 高质量编码</title>
-  <style>${STYLES}</style>
+  <style>${STYLES}\n${REVEAL_OVERRIDES}</style>
 </head>
 <body>
   <!-- Generated from slides.md by build-html.mjs. -->
-  <main class="stage" aria-label="AI 高质量编码内部赋能演示">${slideMarkup}
-  </main>
+  <main class="reveal" aria-label="AI 高质量编码内部赋能演示"><div class="slides">${slideMarkup}
+  </div></main>
 
-  <div class="progress" aria-hidden="true"><div class="progress__bar"></div></div>
-  <nav class="controls" aria-label="幻灯片控制">
+  <div class="progress" aria-hidden="true" hidden><div class="progress__bar"></div></div>
+  <nav class="controls" aria-label="幻灯片控制" hidden>
     <button type="button" data-action="previous" aria-label="上一页">←</button>
-    <span class="controls__count" aria-live="off">01 / 20</span>
+    <span class="controls__count" aria-live="off">01 / 23</span>
     <button type="button" data-action="next" aria-label="下一页">→</button>
     <button type="button" data-action="overview" data-secondary aria-label="总览">总览</button>
     <button type="button" data-action="notes" data-secondary aria-label="讲者备注">备注</button>
@@ -1156,21 +1253,21 @@ const html = `<!doctype html>
     <button type="button" data-action="help" data-secondary aria-label="快捷键帮助">?</button>
   </nav>
 
-  <aside class="panel" id="notes-panel" aria-label="讲者备注">
+  <aside class="panel" id="notes-panel" aria-label="讲者备注" hidden>
     <div class="panel__surface">
       <div class="panel__head"><h2>讲者备注</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="notes__content"></div>
     </div>
   </aside>
 
-  <aside class="panel" id="overview-panel" aria-label="幻灯片总览">
+  <aside class="panel" id="overview-panel" aria-label="幻灯片总览" hidden>
     <div class="panel__surface">
-      <div class="panel__head"><h2>20 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
+      <div class="panel__head"><h2>23 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="overview__grid"></div>
     </div>
   </aside>
 
-  <aside class="panel" id="help-panel" aria-label="快捷键帮助">
+  <aside class="panel" id="help-panel" aria-label="快捷键帮助" hidden>
     <div class="panel__surface">
       <div class="panel__head"><h2>演示快捷键</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="help__grid">
@@ -1187,7 +1284,9 @@ const html = `<!doctype html>
   </aside>
 
   <p class="sr-only" id="live-region" aria-live="polite"></p>
-  <script>${CLIENT_SCRIPT}</script>
+  <script src="./vendor/reveal.js/reveal.js"></script>
+  <script src="./vendor/reveal.js/notes.js"></script>
+  <script>${REVEAL_CLIENT_SCRIPT}</script>
 </body>
 </html>
 `;
