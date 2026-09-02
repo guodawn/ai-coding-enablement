@@ -351,7 +351,43 @@ Lane 解决“按什么工程方式查和验”。另外两个输入各有职责
 
 ---
 
-## 13. Condition：只为已经确认的风险追加约束
+## 13. Domain：确定哪一块拥有事实与入口
+
+### 屏幕内容
+
+**Domain 不是团队名称或目录路径；它说明这次行为主要归哪个业务边界负责。**
+
+| Domain 带来的信息 | 它让 Route 知道什么 |
+|---|---|
+| 领域 owner | 哪个模块对这项行为和边界负责 |
+| owner docs | 到哪份领域文档确认产品、设计或约束事实 |
+| code roots | 第一轮从哪些源码与邻近测试开始搜索 |
+| contract roots | 哪些公开边界和跨模块调用不能漏看 |
+
+```text
+本案例：domain = studio.workflow
+owner = studio-workflow
+code root = internal/core/workflow
+contract root = contract/workflow
+```
+
+> Lane 说明“怎样查和验”；Domain 说明“到哪里找 owner”；Condition 才说明“还要追加什么风险约束”。
+
+### 讲者备注
+
+Domain Registry 把稳定的领域知识集中起来：owner、文档入口、代码根与 contract 根。它只限定第一批搜索范围，不会把具体要改的 handler 或测试写死在路由配置中；这些仍需要 Explore 用当前代码发现。
+
+### 过渡
+
+最后一个输入是 Condition：只有已确认的风险事实，才会追加验证或人类 gate。
+
+### 依据
+
+- 参考文档：二、1，Domain、owner docs、code roots、contract roots
+
+---
+
+## 14. Condition：只为已经确认的风险追加约束
 
 ### 屏幕内容
 
@@ -380,7 +416,7 @@ Lane、Domain 和 Condition 确定后，工具给出的只是最小行动包，�
 
 ---
 
-## 14. 工具给的是“该从哪开始”，不是一大包必读材料
+## 15. 工具给的是“该从哪开始”，不是一大包必读材料
 
 ### 屏幕内容
 
@@ -407,7 +443,7 @@ Lane、Domain 和 Condition 确定后，工具给出的只是最小行动包，�
 
 ---
 
-## 15. 同一个输入，每次都会得到同一份任务清单
+## 16. 同一个输入，每次都会得到同一份任务清单
 
 ### 屏幕内容
 
@@ -435,7 +471,7 @@ human gates: none
 
 ---
 
-## 16. Route 的作用：给出调查起点与证据责任
+## 17. Route 的作用：给出调查起点与证据责任
 
 ### 屏幕内容
 
@@ -459,7 +495,7 @@ Route 不会从一条报错猜出根因，也不会指定“改第几个函数�
 
 ---
 
-## 17. 单元测试通过，不等于用户真的能用
+## 18. 单元测试通过，不等于用户真的能用
 
 ### 屏幕内容
 
@@ -488,7 +524,7 @@ verification-layers
 
 ---
 
-## 18. 第三章总览：一次报错，怎样一步步查到真正原因
+## 19. 第三章总览：一次报错，怎样一步步查到真正原因
 
 ### 屏幕内容
 
@@ -519,7 +555,7 @@ delivery-loop
 
 ---
 
-## 19. 用户问题：一加知识库检索，试运行就失败
+## 20. 用户问题：一加知识库检索，试运行就失败
 
 ### 屏幕内容
 
@@ -551,7 +587,7 @@ Skill 的第一步不是立即找根因，而是先写清目标、不变项和�
 
 ---
 
-## 20. 定界：先把报错改写成工程任务
+## 21. 定界：先把报错改写成工程任务
 
 ### 屏幕内容
 
@@ -579,7 +615,7 @@ Route 给出的最小入口是 AGENTS 指令链、Workflow domain、backend stan
 
 ---
 
-## 21. Route：只读取解决当前问题的最小事实入口
+## 22. Route：只读取解决当前问题的最小事实入口
 
 ### 屏幕内容
 
@@ -611,7 +647,7 @@ Route 此时没有预读 IAM、安全、数据库、部署或 E2E 文档：还�
 
 ---
 
-## 22. Explore 1：先证明安全契约没有错
+## 23. Explore 1：先证明安全契约没有错
 
 ### 屏幕内容
 
@@ -642,7 +678,7 @@ identity reference is invalid
 
 ---
 
-## 23. 证据：Workflow 发出的请求，身份字段确实为空
+## 24. 证据：Workflow 发出的请求，身份字段确实为空
 
 ### 屏幕内容
 
@@ -671,7 +707,7 @@ RetrieveRequest{
 
 ---
 
-## 24. 身份信封：请求属于哪里，谁正在执行
+## 25. 身份信封：请求属于哪里，谁正在执行
 
 ### 屏幕内容
 
@@ -698,7 +734,7 @@ Git history 解释“为什么有这个安全要求”，当前代码扫描才�
 
 ---
 
-## 25. 范围判断：历史解释背景，当前代码证明遗漏范围
+## 26. 范围判断：历史解释背景，当前代码证明遗漏范围
 
 ### 屏幕内容
 
@@ -728,7 +764,7 @@ Git commit 9599f107
 
 ---
 
-## 26. 记录：在实施前建立 DEFECT 与 Resolution Plan
+## 27. 记录：在实施前建立 DEFECT 与 Resolution Plan
 
 ### 屏幕内容
 
@@ -757,7 +793,7 @@ DEFECT 让跨域、授权边界且具有复发价值的问题有稳定 owner；P
 
 ---
 
-## 27. Implement 1：在真正 owner 层补齐身份
+## 28. Implement 1：在真正 owner 层补齐身份
 
 ### 屏幕内容
 
@@ -787,7 +823,7 @@ RetrieveRequest：业务参数 + 完整身份信封
 
 ---
 
-## 28. 为什么必须显式传递身份，而不是在 adapter 里隐式读取？
+## 29. 为什么必须显式传递身份，而不是在 adapter 里隐式读取？
 
 ### 屏幕内容
 
@@ -819,7 +855,7 @@ Knowledge contract                  → 依据这些事实做 Dataset 预授权
 
 ---
 
-## 29. Verify 1：第一轮证据证明了什么，又遗漏了什么
+## 30. Verify 1：第一轮证据证明了什么，又遗漏了什么
 
 ### 屏幕内容
 
@@ -845,7 +881,7 @@ Delivery Log 如实记录 E2E 尚未运行，但第一次 Close 仍然过早。�
 
 ---
 
-## 30. 运行反馈：用户复测推翻第一次 Close
+## 31. 运行反馈：用户复测推翻第一次 Close
 
 ### 屏幕内容
 
@@ -873,7 +909,7 @@ Focused tests：身份已显式传递 ✓
 
 ---
 
-## 31. Explore 2：context 没丢，session 被新 cache 遮蔽
+## 32. Explore 2：context 没丢，session 被新 cache 遮蔽
 
 ### 屏幕内容
 
@@ -903,7 +939,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 32. 红测：请求级身份可见，节点级 scratch 必须隔离
+## 33. 红测：请求级身份可见，节点级 scratch 必须隔离
 
 ### 屏幕内容
 
@@ -928,7 +964,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 33. Implement 2：只让 session 穿过 cache reset
+## 34. Implement 2：只让 session 穿过 cache reset
 
 ### 屏幕内容
 
@@ -959,7 +995,7 @@ map A: session + scratch  →  map B: session
 
 ---
 
-## 34. Acceptance 前：先确认环境运行的是第二轮修复
+## 35. Acceptance 前：先确认环境运行的是第二轮修复
 
 ### 屏幕内容
 
@@ -987,7 +1023,7 @@ map A: session + scratch  →  map B: session
 
 ---
 
-## 35. Acceptance：补齐真实用户路径的证据
+## 36. Acceptance：补齐真实用户路径的证据
 
 ### 屏幕内容
 
@@ -1017,7 +1053,7 @@ output = {"outputList":[]}
 
 ---
 
-## 36. Close：DEFECT、Log、Test 各自拥有不同事实
+## 37. Close：DEFECT、Log、Test 各自拥有不同事实
 
 ### 屏幕内容
 
@@ -1043,7 +1079,7 @@ Close 不是一句 done：它必须诚实地给出已运行、未运行和残余
 
 ---
 
-## 37. 回看完整流程：每一步由证据推动，而非猜测推动
+## 38. 回看完整流程：每一步由证据推动，而非猜测推动
 
 ### 屏幕内容
 
@@ -1074,7 +1110,7 @@ docs 不在开始时一次读完，也不在结束时才补写。它持续提供
 
 ---
 
-## 38. 把四项质量条件变成七个问题
+## 39. 把四项质量条件变成七个问题
 
 ### 屏幕内容
 
