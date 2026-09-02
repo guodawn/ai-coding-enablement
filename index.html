@@ -645,15 +645,17 @@
           <p class="slide__chapter">开场：从写代码到可验证交付</p>
           <h1 class="slide__title">两套机制，补齐四项质量条件</h1>
         </header>
-        <div class="slide__body"><table><thead><tr><th>质量条件</th><th>工程落点</th></tr></thead><tbody><tr><td>任务边界</td><td>人确认目标、不变项与验收标准</td></tr><tr><td>可信上下文</td><td>docs-for-ai：事实来源、owner 与冲突规则</td></tr><tr><td>验证反馈</td><td>Skill：证据责任 + tests / acceptance</td></tr><tr><td>人类决策</td><td>human gate：高影响取舍不由 AI 静默决定</td></tr></tbody></table>
-<p><strong>docs-for-ai 与 Skill 不是额外两项；它们是让四项条件可执行的两套机制。</strong></p></div>
+        <div class="slide__body"><p>我目前使用两套相互配合的机制：</p>
+<table><thead><tr><th>机制</th><th>它负责回答的问题</th></tr></thead><tbody><tr><td><strong>docs-for-ai 管理工程事实</strong></td><td>事实在哪里？由谁维护？发生冲突时相信谁？</td></tr><tr><td><strong>Skill 管理任务过程</strong></td><td>从哪里开始调查？何时扩大范围？需要哪些验证？什么决定必须交给人？</td></tr></tbody></table>
+<p><strong>docs-for-ai 让 AI 找对并相信正确的资料；Skill 让 AI 用这些资料推进一次可验证的交付。</strong></p>
+<table><thead><tr><th>四项质量条件</th><th>主要工程落点</th></tr></thead><tbody><tr><td>可信上下文</td><td>docs-for-ai：事实来源、owner 与冲突规则</td></tr><tr><td>验证反馈 / 人类决策</td><td>Skill：证据责任、tests / acceptance、human gate</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
           <span>02 / 37</span>
         </footer>
         <aside class="notes">
           <h2>讲者备注</h2>
-          <p>任务边界和人类决策由人保有；docs-for-ai 解决“资料该信谁”；Skill 将任务拆成可执行、可验证的过程。这样四项不是口号，而能落到仓库、路由、测试和验收中。</p>
+          <p>这是整场分享的总主张：两者不是替代关系。docs-for-ai 管“事实”，Skill 管“行动”；任务边界和高影响决策仍由人保有。这样四项不是口号，而能落到仓库、路由、测试和验收中。</p>
 <h3>过渡</h3><p>先看可信上下文如何建立：不同问题不能一律只看代码。</p>
           <h3>依据</h3>
           <ul><li>参考文档：引言、第一章</li></ul>
@@ -679,6 +681,7 @@
         </div>
       </figure>
 <p><strong>对应开场的第 2 项：可信上下文。</strong></p>
+<p><strong>docs-for-ai 只管理工程事实：它不规定这次任务先做什么，而是保证需要事实时，找得到 owner。</strong></p>
 <p>本章建立一张工程事实地图：</p>
 <ol><li>先区分事实类型，再回到对应的唯一 owner；</li><li>文档目录表达职责边界，不表达阅读顺序；</li><li>人与 AI 共享同一份正文，并按问题渐进加载上下文。</li></ol>
 <blockquote>目标不是让 AI 多读文档，而是让它在需要时读到正确的事实。</blockquote></div>
@@ -850,6 +853,7 @@
           <h1 class="slide__title">第二章总览：把“该查什么”变成清楚的行动清单</h1>
         </header>
         <div class="slide__body"><p><strong>对应开场的第 3、4 项：验证反馈与人类决策。</strong></p>
+<p><strong>Skill 不重写工程事实：它把 docs、代码和测试组织成这一次任务的调查、验证与升级路径。</strong></p>
 <p>这一章把一次任务分成两件事：</p>
 <ul><li><strong>Route：</strong> 根据改动类型、业务归属和风险情况，列出这次该看的资料和该做的检查；</li><li><strong>Execute / Review：</strong> 回到代码找原因，实际跑检查，再判断证据够不够。</li></ul>
 <p>Route 帮你别漏掉入口、边界和检查项；它<strong>不会</strong>替 AI 猜根因，也不会替人做高影响决定。验证责任由 Route 声明，是否足以关闭任务仍由 Review 判断。</p>
