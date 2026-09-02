@@ -316,7 +316,7 @@ Route 不会从一条报错猜出根因，也不会指定“改第几个函数�
 
 ---
 
-## 12. 先说清三件事：改哪类东西、归谁管、有什么风险
+## 12. Lane：按影响面决定该怎样查、改、验
 
 ### 屏幕内容
 
@@ -324,15 +324,20 @@ Route 不会从一条报错猜出根因，也不会指定“改第几个函数�
 route-matrix
 ```
 
-| 要说明的事 | 它回答的问题 | 示例 |
+**Lane 不是代码目录，也不是互斥标签；它标出这次改动会触及哪一种工程边界。**
+
+| Lane | 它表示什么 | Route 因此会重点补什么 |
 |---|---|---|
-| Lane（改动类型） | 这次要按哪种工程方式查和验 | backend、contract、data、security |
-| Domain（业务归属） | 这块功能和资料主要归谁管 | `studio.workflow` |
-| Condition（已确认风险） | 这次已经确定有哪些额外风险 | `schema_change`、`observable_behavior_change` |
+| `backend` | 服务端行为、模块实现或运行逻辑变化 | owning source、邻近测试、build / vet 与后端回归证据 |
+| `contract` | API、事件、公开类型或跨模块调用的约定变化 | contract root、兼容性与已知消费者验证 |
+| `data` | schema、迁移、数据语义或生成链变化 | schema owner、migration、codegen 与数据影响检查 |
+| `security` | 身份、授权、凭证、审计或安全策略变化 | 安全边界、负向验证，必要时 human gate |
+
+一次任务可以同时命中多个 lane：例如改一个带鉴权的新接口，通常同时是 `backend` + `contract` + `security`。
 
 ### 讲者备注
 
-人先根据任务说清这三件事；一旦确定，工具就按配置列清单并去重，不再临场随意发挥。
+Lane 解决“按什么工程方式查和验”。另外两个输入各有职责：Domain 决定主要 owner（如 `studio.workflow`）；Condition 声明已确认的风险事实（如 `schema_change`），并在此基础上追加检查或 gate。三者共同决定 Route 的最小行动包。
 
 ### 过渡
 
