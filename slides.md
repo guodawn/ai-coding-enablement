@@ -345,7 +345,36 @@ Lane 解决“按什么工程方式查和验”。另外两个输入各有职责
 
 ---
 
-## 13. 工具给的是“该从哪开始”，不是一大包必读材料
+## 13. Condition：只为已经确认的风险追加约束
+
+### 屏幕内容
+
+**Condition 不是“可能有风险”的猜测，而是当前任务已经成立的风险事实。**
+
+| Condition | 表示什么 | Route 会追加什么 |
+|---|---|---|
+| `observable_behavior_change` | 用户可观察到的行为发生变化 | acceptance evidence：要能证明用户路径恢复或符合预期 |
+| `schema_change` | 数据结构或演进路径发生变化 | schema / migration / codegen 检查；必要时确认数据影响 |
+| `breaking_contract` | 现有消费者可能无法继续使用公开边界 | 兼容性验证与由人确认的取舍 |
+| `security_policy_change` | 授权或安全策略本身发生变化 | 负向验证，并请人确认预期的授权边界 |
+
+**没有命中 Condition，就不凭“任务看起来复杂”自动加审批或扩大验证。**
+
+### 讲者备注
+
+Condition 让验证与 gate 有明确触发条件。比如本案例命中 `observable_behavior_change`，所以 Route 要求 acceptance tests；但它没有改变 schema、公开 HTTP contract 或安全策略，因而不应平白增加 migration 或安全审批。它和 Lane、Domain 一起决定行动包：Lane 是工程影响面，Domain 是 owner，Condition 是已经确认的额外风险。
+
+### 过渡
+
+Lane、Domain 和 Condition 确定后，工具给出的只是最小行动包，而不是一大包必须预读的材料。
+
+### 依据
+
+- 参考文档：二、1，Condition、verification、human gates
+
+---
+
+## 14. 工具给的是“该从哪开始”，不是一大包必读材料
 
 ### 屏幕内容
 
@@ -372,7 +401,7 @@ Lane 解决“按什么工程方式查和验”。另外两个输入各有职责
 
 ---
 
-## 14. 同一个输入，每次都会得到同一份任务清单
+## 15. 同一个输入，每次都会得到同一份任务清单
 
 ### 屏幕内容
 
@@ -400,7 +429,7 @@ human gates: none
 
 ---
 
-## 15. 路由、执行、复盘：不要把三件事混在一起
+## 16. 路由、执行、复盘：不要把三件事混在一起
 
 ### 屏幕内容
 
@@ -429,7 +458,7 @@ verification 只是“还欠哪些检查”的清单，不代表已经跑过。�
 
 ---
 
-## 16. 单元测试通过，不等于用户真的能用
+## 17. 单元测试通过，不等于用户真的能用
 
 ### 屏幕内容
 
@@ -458,7 +487,7 @@ verification-layers
 
 ---
 
-## 17. 第三章总览：一次报错，怎样一步步查到真正原因
+## 18. 第三章总览：一次报错，怎样一步步查到真正原因
 
 ### 屏幕内容
 
@@ -489,7 +518,7 @@ delivery-loop
 
 ---
 
-## 18. 用户问题：一加知识库检索，试运行就失败
+## 19. 用户问题：一加知识库检索，试运行就失败
 
 ### 屏幕内容
 
@@ -521,7 +550,7 @@ Skill 的第一步不是立即找根因，而是先写清目标、不变项和�
 
 ---
 
-## 19. 定界：先把报错改写成工程任务
+## 20. 定界：先把报错改写成工程任务
 
 ### 屏幕内容
 
@@ -549,7 +578,7 @@ Route 给出的最小入口是 AGENTS 指令链、Workflow domain、backend stan
 
 ---
 
-## 20. Route：只读取解决当前问题的最小事实入口
+## 21. Route：只读取解决当前问题的最小事实入口
 
 ### 屏幕内容
 
@@ -581,7 +610,7 @@ Route 此时没有预读 IAM、安全、数据库、部署或 E2E 文档：还�
 
 ---
 
-## 21. Explore 1：先证明安全契约没有错
+## 22. Explore 1：先证明安全契约没有错
 
 ### 屏幕内容
 
@@ -612,7 +641,7 @@ identity reference is invalid
 
 ---
 
-## 22. 证据：Workflow 发出的请求，身份字段确实为空
+## 23. 证据：Workflow 发出的请求，身份字段确实为空
 
 ### 屏幕内容
 
@@ -641,7 +670,7 @@ RetrieveRequest{
 
 ---
 
-## 23. 身份信封：请求属于哪里，谁正在执行
+## 24. 身份信封：请求属于哪里，谁正在执行
 
 ### 屏幕内容
 
@@ -668,7 +697,7 @@ Git history 解释“为什么有这个安全要求”，当前代码扫描才�
 
 ---
 
-## 24. 范围判断：历史解释背景，当前代码证明遗漏范围
+## 25. 范围判断：历史解释背景，当前代码证明遗漏范围
 
 ### 屏幕内容
 
@@ -698,7 +727,7 @@ Git commit 9599f107
 
 ---
 
-## 25. 记录：在实施前建立 DEFECT 与 Resolution Plan
+## 26. 记录：在实施前建立 DEFECT 与 Resolution Plan
 
 ### 屏幕内容
 
@@ -727,7 +756,7 @@ DEFECT 让跨域、授权边界且具有复发价值的问题有稳定 owner；P
 
 ---
 
-## 26. Implement 1：在真正 owner 层补齐身份
+## 27. Implement 1：在真正 owner 层补齐身份
 
 ### 屏幕内容
 
@@ -757,7 +786,7 @@ RetrieveRequest：业务参数 + 完整身份信封
 
 ---
 
-## 27. 为什么必须显式传递身份，而不是在 adapter 里隐式读取？
+## 28. 为什么必须显式传递身份，而不是在 adapter 里隐式读取？
 
 ### 屏幕内容
 
@@ -789,7 +818,7 @@ Knowledge contract                  → 依据这些事实做 Dataset 预授权
 
 ---
 
-## 28. Verify 1：第一轮证据证明了什么，又遗漏了什么
+## 29. Verify 1：第一轮证据证明了什么，又遗漏了什么
 
 ### 屏幕内容
 
@@ -815,7 +844,7 @@ Delivery Log 如实记录 E2E 尚未运行，但第一次 Close 仍然过早。�
 
 ---
 
-## 29. 运行反馈：用户复测推翻第一次 Close
+## 30. 运行反馈：用户复测推翻第一次 Close
 
 ### 屏幕内容
 
@@ -843,7 +872,7 @@ Focused tests：身份已显式传递 ✓
 
 ---
 
-## 30. Explore 2：context 没丢，session 被新 cache 遮蔽
+## 31. Explore 2：context 没丢，session 被新 cache 遮蔽
 
 ### 屏幕内容
 
@@ -873,7 +902,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 31. 红测：请求级身份可见，节点级 scratch 必须隔离
+## 32. 红测：请求级身份可见，节点级 scratch 必须隔离
 
 ### 屏幕内容
 
@@ -898,7 +927,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 32. Implement 2：只让 session 穿过 cache reset
+## 33. Implement 2：只让 session 穿过 cache reset
 
 ### 屏幕内容
 
@@ -929,7 +958,7 @@ map A: session + scratch  →  map B: session
 
 ---
 
-## 33. Acceptance 前：先确认环境运行的是第二轮修复
+## 34. Acceptance 前：先确认环境运行的是第二轮修复
 
 ### 屏幕内容
 
@@ -957,7 +986,7 @@ map A: session + scratch  →  map B: session
 
 ---
 
-## 34. Acceptance：补齐真实用户路径的证据
+## 35. Acceptance：补齐真实用户路径的证据
 
 ### 屏幕内容
 
@@ -987,7 +1016,7 @@ output = {"outputList":[]}
 
 ---
 
-## 35. Close：DEFECT、Log、Test 各自拥有不同事实
+## 36. Close：DEFECT、Log、Test 各自拥有不同事实
 
 ### 屏幕内容
 
@@ -1013,7 +1042,7 @@ Close 不是一句 done：它必须诚实地给出已运行、未运行和残余
 
 ---
 
-## 36. 回看完整流程：每一步由证据推动，而非猜测推动
+## 37. 回看完整流程：每一步由证据推动，而非猜测推动
 
 ### 屏幕内容
 
@@ -1044,7 +1073,7 @@ docs 不在开始时一次读完，也不在结束时才补写。它持续提供
 
 ---
 
-## 37. 把四项质量条件变成七个问题
+## 38. 把四项质量条件变成七个问题
 
 ### 屏幕内容
 

@@ -12,9 +12,9 @@ const heroImage = `data:image/png;base64,${readFileSync(
 const CHAPTERS = [
   [1, 2, "开场：从写代码到可验证交付"],
   [3, 9, "第一章：docs-for-ai 管理工程事实"],
-  [10, 16, "第二章：Skill 把事实组织成行动"],
-  [17, 36, "第三章：工作流故障交付案例"],
-  [37, 37, "结语：下一次任务的七个问题"],
+  [10, 17, "第二章：Skill 把事实组织成行动"],
+  [18, 37, "第三章：工作流故障交付案例"],
+  [38, 38, "结语：下一次任务的七个问题"],
 ];
 
 const LAYOUTS = {
@@ -29,17 +29,18 @@ const LAYOUTS = {
   10: "flow",
   11: "case",
   12: "table",
-  13: "flow",
-  14: "list",
+  13: "table",
+  14: "flow",
   15: "list",
-  16: "case",
-  17: "flow",
-  19: "flow",
-  20: "case",
-  25: "table",
-  35: "table",
-  36: "flow",
-  37: "checklist",
+  16: "list",
+  17: "case",
+  18: "flow",
+  20: "flow",
+  21: "case",
+  26: "table",
+  36: "table",
+  37: "flow",
+  38: "checklist",
 };
 
 function escapeHtml(value) {
@@ -362,9 +363,9 @@ function parseSlides(markdown) {
         chapter: chapterFor(number),
         layout: LAYOUTS[number] ?? "standard",
         screen: section(block, "屏幕内容", "讲者备注"),
-        notes: section(block, "讲者备注", number === 37 ? "依据" : "过渡"),
+        notes: section(block, "讲者备注", number === 38 ? "依据" : "过渡"),
         transition:
-          number === 37 ? "" : section(block, "过渡", "依据"),
+          number === 38 ? "" : section(block, "过渡", "依据"),
         sources: section(block, "依据"),
       };
     });
@@ -1229,8 +1230,8 @@ const REVEAL_CLIENT_SCRIPT = String.raw`
 
 const markdown = readFileSync(sourcePath, "utf8");
 const slides = parseSlides(markdown);
-if (slides.length !== 37) {
-  throw new Error(`Expected 37 slides, received ${slides.length}`);
+if (slides.length !== 38) {
+  throw new Error(`Expected 38 slides, received ${slides.length}`);
 }
 slides.forEach((slide, index) => {
   if (slide.number !== index + 1) {
@@ -1275,7 +1276,7 @@ const html = `<!doctype html>
 
   <aside class="panel" id="overview-panel" aria-label="幻灯片总览" hidden>
     <div class="panel__surface">
-      <div class="panel__head"><h2>37 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
+      <div class="panel__head"><h2>38 页总览</h2><button class="panel__close" aria-label="关闭">×</button></div>
       <div class="overview__grid"></div>
     </div>
   </aside>
