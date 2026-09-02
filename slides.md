@@ -439,6 +439,7 @@ delivery-loop
 
 | 阶段 | 这一步要说清什么 |
 |---|---|
+| Route | lane、domain、condition 命中什么，最小行动包与证据责任是什么？ |
 | Explore | 现在有哪些可能原因？什么结果能推翻它？ |
 | Implement | 真正该改哪里？哪些边界绝不能动？ |
 | Verify | 每个检查证明了什么，又没证明什么？ |

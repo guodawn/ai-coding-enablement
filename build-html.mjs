@@ -170,10 +170,10 @@ function renderVisual(name) {
         </div>
       </figure>`,
     "delivery-loop": `
-      <figure class="visual visual--loop" aria-label="AI 工程交付的五阶段反馈循环">
+      <figure class="visual visual--loop" aria-label="AI 工程交付从路由到复盘的五阶段反馈循环">
         <div class="visual__loop-row">
-          <div><b>01</b><span>Explore</span></div><i>→</i>
-          <div><b>02</b><span>Plan</span></div><i>→</i>
+          <div><b>01</b><span>Route</span></div><i>→</i>
+          <div><b>02</b><span>Explore</span></div><i>→</i>
           <div><b>03</b><span>Implement</span></div><i>→</i>
           <div><b>04</b><span>Verify</span></div><i>→</i>
           <div><b>05</b><span>Review</span></div>
