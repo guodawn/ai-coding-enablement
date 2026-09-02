@@ -48,10 +48,7 @@ quality-system
 
 **docs-for-ai 让 AI 找对并相信正确的资料；Skill 让 AI 用这些资料推进一次可验证的交付。**
 
-| 四项质量条件 | 主要工程落点 |
-|---|---|
-| 可信上下文 | docs-for-ai：事实来源、owner 与冲突规则 |
-| 验证反馈 / 人类决策 | Skill：证据责任、tests / acceptance、human gate |
+> 两者相互配合，但不替人定义目标，也不替人做高影响取舍。
 
 ### 讲者备注
 
