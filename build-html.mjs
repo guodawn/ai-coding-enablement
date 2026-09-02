@@ -36,7 +36,7 @@ const LAYOUTS = {
   17: "list",
   18: "table",
   19: "case",
-  20: "flow",
+  20: "case",
   22: "flow",
   23: "case",
   28: "table",
