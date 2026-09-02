@@ -978,8 +978,30 @@ contract root = contract/workflow</code></pre>
         </aside>
       </section>
 
-      <section class="slide slide--flow" id="slide-15"
-        data-slide="15" data-title="工具给的是“该从哪开始”，不是一大包必读材料"
+      <section class="slide slide--table" id="slide-15"
+        data-slide="15" data-title="Route 的作用：给出调查起点与证据责任"
+        data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
+        <header class="slide__header">
+          <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
+          <h1 class="slide__title">Route 的作用：给出调查起点与证据责任</h1>
+        </header>
+        <div class="slide__body"><table><thead><tr><th>Route 的输入</th><th>Route 的输出</th></tr></thead><tbody><tr><td>改动类型、业务归属、已确认风险</td><td>规则、owner docs、代码/契约入口、证据责任、人类 gate</td></tr></tbody></table>
+<p>它解决的是“从哪里开始、不能漏什么”，不是“根因一定在哪里”。</p></div>
+        <footer class="slide__footer">
+          <span>UnicAgent Studio · AI 高质量编码</span>
+          <span>15 / 39</span>
+        </footer>
+        <aside class="notes">
+          <h2>讲者备注</h2>
+          <p>Route 不会从一条报错猜出根因，也不会指定“改第几个函数”。它把容易漏掉的入口、公开边界和检查要求固定下来；verification 只是“还欠哪些检查”的清单，不代表已经跑过。</p>
+<h3>过渡</h3><p>接下来把这份最小行动包拆开：它给的是入口，不是一大包必须预读的材料。</p>
+          <h3>依据</h3>
+          <ul><li>参考文档：二、1</li></ul>
+        </aside>
+      </section>
+
+      <section class="slide slide--flow" id="slide-16"
+        data-slide="16" data-title="工具给的是“该从哪开始”，不是一大包必读材料"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
@@ -988,19 +1010,19 @@ contract root = contract/workflow</code></pre>
         <div class="slide__body"><table><thead><tr><th>工具给出的内容</th><th>它帮你回答什么</th></tr></thead><tbody><tr><td>instructions</td><td>在这个目录里做事，有哪些必须遵守的规则？</td></tr><tr><td>owner docs</td><td>哪些文档最清楚这次需要的事实？</td></tr><tr><td>code roots</td><td>第一轮应该从哪里搜当前实现？</td></tr><tr><td>contract roots</td><td>哪些对外接口或跨模块约定不能忘？</td></tr><tr><td>verification</td><td>最后还必须拿到哪些检查结果？</td></tr><tr><td>human gates</td><td>哪些事不能让 AI 自己悄悄决定？</td></tr></tbody></table></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
-          <span>15 / 39</span>
+          <span>16 / 39</span>
         </footer>
         <aside class="notes">
           <h2>讲者备注</h2>
           <p>这些是入口，不是要求一次全部读完。比如返回 SPEC index，只表示需要时从这里继续找到对应需求，不是要把整个目录塞进上下文。</p>
-<h3>过渡</h3><p>前面几项让搜索不跑偏，后面两项让“任务完成”的说法有依据。</p>
+<h3>过渡</h3><p>输入、配置版本和目录结构相同，工具每次都应该给出同一份可追溯的清单。</p>
           <h3>依据</h3>
-          <ul><li>参考文档：二、1</li></ul>
+          <ul><li>参考文档：二、1，“工具如何一步步合并”</li></ul>
         </aside>
       </section>
 
-      <section class="slide slide--list" id="slide-16"
-        data-slide="16" data-title="同一个输入，每次都会得到同一份任务清单"
+      <section class="slide slide--list" id="slide-17"
+        data-slide="17" data-title="同一个输入，每次都会得到同一份任务清单"
         data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
         <header class="slide__header">
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
@@ -1015,34 +1037,12 @@ verification: backend_tests + acceptance_tests
 human gates: none</code></pre></div>
         <footer class="slide__footer">
           <span>UnicAgent Studio · AI 高质量编码</span>
-          <span>16 / 39</span>
-        </footer>
-        <aside class="notes">
-          <h2>讲者备注</h2>
-          <p>只要输入、配置版本和目录结构相同，工具每次都会给出同一份清单；而且每一项都能追溯：是改动类型、风险条件、领域登记，还是目录里的 AGENTS 规则带来的。</p>
-<h3>过渡</h3><p>清单负责把范围缩小；接下来才是 Agent 在这个范围里找真正原因。</p>
-          <h3>依据</h3>
-          <ul><li>参考文档：二、1，“工具如何一步步合并”</li></ul>
-        </aside>
-      </section>
-
-      <section class="slide slide--table" id="slide-17"
-        data-slide="17" data-title="Route 的作用：给出调查起点与证据责任"
-        data-chapter="第二章：Skill 把事实组织成行动" aria-hidden="true">
-        <header class="slide__header">
-          <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
-          <h1 class="slide__title">Route 的作用：给出调查起点与证据责任</h1>
-        </header>
-        <div class="slide__body"><table><thead><tr><th>Route 的输入</th><th>Route 的输出</th></tr></thead><tbody><tr><td>改动类型、业务归属、已确认风险</td><td>规则、owner docs、代码/契约入口、证据责任、人类 gate</td></tr></tbody></table>
-<p>它解决的是“从哪里开始、不能漏什么”，不是“根因一定在哪里”。</p></div>
-        <footer class="slide__footer">
-          <span>UnicAgent Studio · AI 高质量编码</span>
           <span>17 / 39</span>
         </footer>
         <aside class="notes">
           <h2>讲者备注</h2>
-          <p>Route 不会从一条报错猜出根因，也不会指定“改第几个函数”。它把容易漏掉的入口、公开边界和检查要求固定下来；verification 只是“还欠哪些检查”的清单，不代表已经跑过。</p>
-<h3>过渡</h3><p>尤其要记住：不同层的检查，不能互相替代。</p>
+          <p>只要输入、配置版本和目录结构相同，工具每次都会给出同一份清单；而且每一项都能追溯：是改动类型、风险条件、领域登记，还是目录里的 AGENTS 规则带来的。</p>
+<h3>过渡</h3><p>清单负责把范围缩小；但不同层的验证不能互相替代。</p>
           <h3>依据</h3>
           <ul><li>参考文档：二、1–2</li></ul>
         </aside>
