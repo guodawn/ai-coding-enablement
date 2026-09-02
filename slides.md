@@ -495,7 +495,38 @@ human gates: none
 
 ---
 
-## 18. 单元测试通过，不等于用户真的能用
+## 18. Route 之后：先 Explore，再 Implement
+
+### 屏幕内容
+
+> Route 给的是可靠起点，不是根因答案；真正的交付从 Explore 开始。
+
+| 阶段 | 在做什么 | 这一阶段的产出 |
+|---|---|---|
+| **Explore** | 沿错误、代码 root 与邻近测试追踪；只有出现具体问题时才扩展到 owner docs / contract | 已证实或待证伪的假设、真正的实现 owner、不可触碰的边界 |
+| **Implement** | 只修改 owner 与直接派生物；用测试固定这次修复的不变量 | 最小但完整的改动、回归测试、明确拒绝的捷径 |
+
+```text
+Route：从哪里开始、不能漏什么
+Explore：根因到底是什么
+Implement：真正该改哪里
+```
+
+### 讲者备注
+
+Explore 不是继续把所有文档读一遍：每次扩展上下文都要回答一个明确问题。Implement 也不是按最短 diff 修改；最小 coherent change 的标准是满足既有 contract 与不变量，并让直接派生物同步一致。
+
+### 过渡
+
+实现完成后，才进入 Verify：先明确每一层证据最多能够证明什么。
+
+### 依据
+
+- 参考文档：二、2，Explore、Implement、Verify、Close
+
+---
+
+## 19. 单元测试通过，不等于用户真的能用
 
 ### 屏幕内容
 
@@ -524,7 +555,7 @@ verification-layers
 
 ---
 
-## 19. 第三章总览：一次报错，怎样一步步查到真正原因
+## 20. 第三章总览：一次报错，怎样一步步查到真正原因
 
 ### 屏幕内容
 
@@ -555,7 +586,7 @@ delivery-loop
 
 ---
 
-## 20. 用户问题：一加知识库检索，试运行就失败
+## 21. 用户问题：一加知识库检索，试运行就失败
 
 ### 屏幕内容
 
@@ -587,7 +618,7 @@ Skill 的第一步不是立即找根因，而是先写清目标、不变项和�
 
 ---
 
-## 21. 定界：先把报错改写成工程任务
+## 22. 定界：先把报错改写成工程任务
 
 ### 屏幕内容
 
@@ -615,7 +646,7 @@ Route 给出的最小入口是 AGENTS 指令链、Workflow domain、backend stan
 
 ---
 
-## 22. Route：只读取解决当前问题的最小事实入口
+## 23. Route：只读取解决当前问题的最小事实入口
 
 ### 屏幕内容
 
@@ -647,7 +678,7 @@ Route 此时没有预读 IAM、安全、数据库、部署或 E2E 文档：还�
 
 ---
 
-## 23. Explore 1：先证明安全契约没有错
+## 24. Explore 1：先证明安全契约没有错
 
 ### 屏幕内容
 
@@ -678,7 +709,7 @@ identity reference is invalid
 
 ---
 
-## 24. 证据：Workflow 发出的请求，身份字段确实为空
+## 25. 证据：Workflow 发出的请求，身份字段确实为空
 
 ### 屏幕内容
 
@@ -707,7 +738,7 @@ RetrieveRequest{
 
 ---
 
-## 25. 身份信封：请求属于哪里，谁正在执行
+## 26. 身份信封：请求属于哪里，谁正在执行
 
 ### 屏幕内容
 
@@ -734,7 +765,7 @@ Git history 解释“为什么有这个安全要求”，当前代码扫描才�
 
 ---
 
-## 26. 范围判断：历史解释背景，当前代码证明遗漏范围
+## 27. 范围判断：历史解释背景，当前代码证明遗漏范围
 
 ### 屏幕内容
 
@@ -764,7 +795,7 @@ Git commit 9599f107
 
 ---
 
-## 27. 记录：在实施前建立 DEFECT 与 Resolution Plan
+## 28. 记录：在实施前建立 DEFECT 与 Resolution Plan
 
 ### 屏幕内容
 
@@ -793,7 +824,7 @@ DEFECT 让跨域、授权边界且具有复发价值的问题有稳定 owner；P
 
 ---
 
-## 28. Implement 1：在真正 owner 层补齐身份
+## 29. Implement 1：在真正 owner 层补齐身份
 
 ### 屏幕内容
 
@@ -823,7 +854,7 @@ RetrieveRequest：业务参数 + 完整身份信封
 
 ---
 
-## 29. 为什么必须显式传递身份，而不是在 adapter 里隐式读取？
+## 30. 为什么必须显式传递身份，而不是在 adapter 里隐式读取？
 
 ### 屏幕内容
 
@@ -855,7 +886,7 @@ Knowledge contract                  → 依据这些事实做 Dataset 预授权
 
 ---
 
-## 30. Verify 1：第一轮证据证明了什么，又遗漏了什么
+## 31. Verify 1：第一轮证据证明了什么，又遗漏了什么
 
 ### 屏幕内容
 
@@ -881,7 +912,7 @@ Delivery Log 如实记录 E2E 尚未运行，但第一次 Close 仍然过早。�
 
 ---
 
-## 31. 运行反馈：用户复测推翻第一次 Close
+## 32. 运行反馈：用户复测推翻第一次 Close
 
 ### 屏幕内容
 
@@ -909,7 +940,7 @@ Focused tests：身份已显式传递 ✓
 
 ---
 
-## 32. Explore 2：context 没丢，session 被新 cache 遮蔽
+## 33. Explore 2：context 没丢，session 被新 cache 遮蔽
 
 ### 屏幕内容
 
@@ -939,7 +970,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 33. 红测：请求级身份可见，节点级 scratch 必须隔离
+## 34. 红测：请求级身份可见，节点级 scratch 必须隔离
 
 ### 屏幕内容
 
@@ -964,7 +995,7 @@ session middleware → context.WithoutCancel → safego.Go → ExeCtx → Datase
 
 ---
 
-## 34. Implement 2：只让 session 穿过 cache reset
+## 35. Implement 2：只让 session 穿过 cache reset
 
 ### 屏幕内容
 
@@ -995,7 +1026,7 @@ map A: session + scratch  →  map B: session
 
 ---
 
-## 35. Acceptance 前：先确认环境运行的是第二轮修复
+## 36. Acceptance 前：先确认环境运行的是第二轮修复
 
 ### 屏幕内容
 
@@ -1023,7 +1054,7 @@ map A: session + scratch  →  map B: session
 
 ---
 
-## 36. Acceptance：补齐真实用户路径的证据
+## 37. Acceptance：补齐真实用户路径的证据
 
 ### 屏幕内容
 
@@ -1053,7 +1084,7 @@ output = {"outputList":[]}
 
 ---
 
-## 37. Close：DEFECT、Log、Test 各自拥有不同事实
+## 38. Close：DEFECT、Log、Test 各自拥有不同事实
 
 ### 屏幕内容
 
@@ -1079,7 +1110,7 @@ Close 不是一句 done：它必须诚实地给出已运行、未运行和残余
 
 ---
 
-## 38. 回看完整流程：每一步由证据推动，而非猜测推动
+## 39. 回看完整流程：每一步由证据推动，而非猜测推动
 
 ### 屏幕内容
 
@@ -1110,7 +1141,7 @@ docs 不在开始时一次读完，也不在结束时才补写。它持续提供
 
 ---
 
-## 39. 把四项质量条件变成七个问题
+## 40. 把四项质量条件变成七个问题
 
 ### 屏幕内容
 
