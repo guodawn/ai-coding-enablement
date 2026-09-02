@@ -902,19 +902,7 @@
           <p class="slide__chapter">第二章：Skill 把事实组织成行动</p>
           <h1 class="slide__title">Lane：按影响面决定该怎样查、改、验</h1>
         </header>
-        <div class="slide__body">
-      <figure class="visual visual--matrix" aria-label="Lane 与 Domain 组成二维任务路由">
-        <div class="visual__axis visual__axis--y">CHANGE LANES</div>
-        <div class="visual__axis visual__axis--x">DOMAIN OWNERS</div>
-        <div class="visual__matrix-grid">
-          <span></span><b>Knowledge</b><b>Agent</b><b>Workflow</b>
-          <b>Backend</b><i class="is-hit">●</i><i></i><i></i>
-          <b>Contract</b><i class="is-hit">●</i><i></i><i></i>
-          <b>Data</b><i class="is-hit">●</i><i></i><i></i>
-        </div>
-        <div class="visual__matrix-output"><small>确定性合并</small><strong>Instructions + Docs + Search Roots + Verification + Gates</strong></div>
-      </figure>
-<p><strong>Lane 不是代码目录，也不是互斥标签；它标出这次改动会触及哪一种工程边界。</strong></p>
+        <div class="slide__body"><p><strong>Lane 不是代码目录，也不是互斥标签；它标出这次改动会触及哪一种工程边界。</strong></p>
 <table><thead><tr><th>Lane</th><th>它表示什么</th><th>Route 因此会重点补什么</th></tr></thead><tbody><tr><td><code>backend</code></td><td>服务端行为、模块实现或运行逻辑变化</td><td>owning source、邻近测试、build / vet 与后端回归证据</td></tr><tr><td><code>contract</code></td><td>API、事件、公开类型或跨模块调用的约定变化</td><td>contract root、兼容性与已知消费者验证</td></tr><tr><td><code>data</code></td><td>schema、迁移、数据语义或生成链变化</td><td>schema owner、migration、codegen 与数据影响检查</td></tr><tr><td><code>security</code></td><td>身份、授权、凭证、审计或安全策略变化</td><td>安全边界、负向验证，必要时 human gate</td></tr></tbody></table>
 <p>一次任务可以同时命中多个 lane：例如改一个带鉴权的新接口，通常同时是 <code>backend</code> + <code>contract</code> + <code>security</code>。</p></div>
         <footer class="slide__footer">
